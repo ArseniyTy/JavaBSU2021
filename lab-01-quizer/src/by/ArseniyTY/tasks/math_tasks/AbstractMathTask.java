@@ -7,40 +7,58 @@ import by.ArseniyTY.quizer.Result;
 import java.util.Objects;
 
 abstract class AbstractMathTask implements MathTask {
-    private final MathOperatorType operatorType;
+    protected int precision;
+    protected final double number1;
+    protected final double number2;
+    protected final MathOperatorType operatorType;
 
-    AbstractMathTask(MathOperatorType type) {
+    AbstractMathTask(int precision, double number1, double number2, MathOperatorType type)
+            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+        setPrecision(precision);
+        this.number1 = DoubleRounder.GetDoubleWithPrecision(number1, precision);
+        this.number2 = DoubleRounder.GetDoubleWithPrecision(number2, precision);
         this.operatorType = type;
+        if (!isArithmeticCorrect()) {
+            throw new IncorrectTaskConditionsException();
+        }
     }
 
-    protected abstract String getNumber1();
-    protected abstract String getNumber2();
+    public void setPrecision(int precision) throws IllegalArgumentException {
+        if (precision <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.precision = precision;
+    }
+
+    protected String getNumber1() {
+        return DoubleRounder.GetDoubleStringWithPrecision(number1, precision);
+    }
+
+    protected String getNumber2() {
+        return DoubleRounder.GetDoubleStringWithPrecision(number2, precision);
+    }
 
     @Override
     public Result validate(String answer) throws NotHandledEnumElementException {
+        double num;
+        try {
+            num = Double.parseDouble(answer);
+        } catch (NumberFormatException ex){
+            return Result.INCORRECT_INPUT;
+        }
+        if (num != DoubleRounder.GetDoubleWithPrecision(num, precision)) {
+            return Result.INCORRECT_INPUT;
+        }
         return (Objects.equals(answer, getAnswer()) || Objects.equals(getAnswer(), "NOT_ZERO")) ?
                 Result.OK : Result.WRONG;
     }
 
-    protected MathOperatorType getOperatorType() {
-        return operatorType;
-    }
-
-    protected String getOperatorStringRepresentation() throws NotHandledEnumElementException {
-        switch (operatorType) {
-            case SUM -> {
-                return "+";
-            }
-            case DIFFERENCE -> {
-                return "-";
-            }
-            case MULTIPLICATION -> {
-                return "*";
-            }
-            case DIVISION -> {
-                return "/";
-            }
-            default -> throw new NotHandledEnumElementException();
-        }
+    protected String getOperatorStringRepresentation() {
+        return switch (operatorType) {
+            case SUM -> "+";
+            case DIFFERENCE -> "-";
+            case MULTIPLICATION -> "*";
+            case DIVISION -> "/";
+        };
     }
 }
