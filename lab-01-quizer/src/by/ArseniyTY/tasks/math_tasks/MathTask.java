@@ -14,4 +14,13 @@ interface MathTask extends Task {
         }
         return true;
     }
+
+    interface Generator extends Task.Generator {
+        double getMinNumber();
+        double getMaxNumber();
+
+        default double getDiffNumber() {
+            return getMaxNumber() - getMinNumber();
+        }
+    }
 }

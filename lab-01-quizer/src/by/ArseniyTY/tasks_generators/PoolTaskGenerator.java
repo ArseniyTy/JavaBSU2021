@@ -2,16 +2,12 @@ package by.ArseniyTY.tasks_generators;
 
 import by.ArseniyTY.exceptions.NotEnoughTasksException;
 import by.ArseniyTY.quizer.Task;
-import by.ArseniyTY.quizer.TaskGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class PoolTaskGenerator implements TaskGenerator {
+public class PoolTaskGenerator implements Task.Generator {
     private final boolean allowDuplicate;
     private ArrayList<Integer> availableTaskIndices;
     private List<Task> tasks;

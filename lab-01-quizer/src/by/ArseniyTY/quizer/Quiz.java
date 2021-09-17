@@ -5,7 +5,7 @@ import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.exceptions.QuizNotFinishedException;
 
 class Quiz {
-    private final TaskGenerator generator;
+    private final Task.Generator generator;
     private Task current_task;
     private boolean isCurrentTaskFinished = true;
     private int taskCount;
@@ -13,7 +13,7 @@ class Quiz {
     private int wrongAnswerNumber = 0;
     private int incorrectInputNumber = 0;
 
-    Quiz(TaskGenerator generator, int taskCount) {
+    Quiz(Task.Generator generator, int taskCount) {
         this.generator = generator;
         setTaskCount(taskCount);
     }

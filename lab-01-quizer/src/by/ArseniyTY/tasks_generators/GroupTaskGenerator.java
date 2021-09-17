@@ -3,23 +3,22 @@ package by.ArseniyTY.tasks_generators;
 import by.ArseniyTY.exceptions.NotEnoughTasksException;
 import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
-import by.ArseniyTY.quizer.TaskGenerator;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class GroupTaskGenerator implements TaskGenerator {
-    private List<TaskGenerator> generators;
+public class GroupTaskGenerator implements Task.Generator {
+    private List<Task.Generator> generators;
 
-    public GroupTaskGenerator(TaskGenerator... generators) {
+    public GroupTaskGenerator(Task.Generator... generators) {
         this(List.of(generators));
     }
 
-    public GroupTaskGenerator(List<TaskGenerator> generators) {
+    public GroupTaskGenerator(List<Task.Generator> generators) {
         setGenerators(generators);
     }
 
-    private void setGenerators(List<TaskGenerator> generators) {
+    private void setGenerators(List<Task.Generator> generators) {
         if (generators.isEmpty()) {
             throw new IllegalArgumentException();
         }
