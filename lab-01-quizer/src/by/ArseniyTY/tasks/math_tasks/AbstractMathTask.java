@@ -49,8 +49,10 @@ abstract class AbstractMathTask implements MathTask {
         if (num != DoubleRounder.GetDoubleWithPrecision(num, precision)) {
             return Result.INCORRECT_INPUT;
         }
-        return (Objects.equals(answer, getAnswer()) || Objects.equals(getAnswer(), "NOT_ZERO")) ?
-                Result.OK : Result.WRONG;
+        if (Objects.equals(getAnswer(), "NOT_ZERO")) {
+            return Double.compare(Double.parseDouble(answer), 0) == 0 ? Result.WRONG : Result.OK;
+        }
+        return Objects.equals(answer, getAnswer()) ? Result.OK : Result.WRONG;
     }
 
     protected String getOperatorStringRepresentation() {
