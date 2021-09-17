@@ -20,8 +20,8 @@ abstract class AbstractMathTask implements MathTask {
             setPrecision(precision);
             this.operators = operators;
 
-            if (Double.compare(maxNumber, 0) == 0 &&
-                Double.compare(minNumber, 0) == 0 &&
+            if (Objects.equals(DoubleRounder.GetDoubleStringWithPrecision(maxNumber, precision), "0") &&
+                Objects.equals(DoubleRounder.GetDoubleStringWithPrecision(minNumber, precision), "0") &&
                 isDivisionTheOnlyOperator()) {
                 throw new IllegalArgumentException();
             }
@@ -116,12 +116,15 @@ abstract class AbstractMathTask implements MathTask {
         } catch (NumberFormatException ex){
             return Result.INCORRECT_INPUT;
         }
-
-        if (num != DoubleRounder.GetDoubleWithPrecision(num, precision)) {
+        if (!Objects.equals(answer, DoubleRounder.GetDoubleStringWithPrecision(num, precision))) {
             return Result.INCORRECT_INPUT;
         }
+
+        if (Objects.equals(getAnswer(), "ANY")) {
+            return Result.OK;
+        }
         if (Objects.equals(getAnswer(), "NOT_ZERO")) {
-            return Double.compare(Double.parseDouble(answer), 0) == 0 ? Result.WRONG : Result.OK;
+            return Double.compare(num, 0) == 0 ? Result.WRONG : Result.OK;
         }
         return Objects.equals(answer, getAnswer()) ? Result.OK : Result.WRONG;
     }

@@ -25,7 +25,7 @@ class Quiz {
         this.taskCount = taskCount;
     }
 
-      Task nextTask() throws NotEnoughTasksException {
+    Task nextTask() throws NotEnoughTasksException {
         if (isCurrentTaskFinished) {
             current_task = generator.generate();
             isCurrentTaskFinished = false;
@@ -54,15 +54,15 @@ class Quiz {
         return correctAnswerNumber + wrongAnswerNumber == taskCount;
     }
 
-    private int getCorrectAnswerNumber() {
+    int getCorrectAnswerNumber() {
         return correctAnswerNumber;
     }
 
-    private int getWrongAnswerNumber() {
+    int getWrongAnswerNumber() {
         return wrongAnswerNumber;
     }
 
-    private int getIncorrectInputNumber() {
+    int getIncorrectInputNumber() {
         return incorrectInputNumber;
     }
 

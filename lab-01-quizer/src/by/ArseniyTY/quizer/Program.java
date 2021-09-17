@@ -28,6 +28,14 @@ public class Program {
                         MathOperator.DIVISION));
         quizMap.put("IEq", new Quiz(intEqTG1, 2));
 
+        var realSmallEq = new EquationMathTask.Generator(0, 0.01, 1,
+                EnumSet.of(MathOperator.MULTIPLICATION, MathOperator.DIVISION));
+        quizMap.put("RSEq", new Quiz(realSmallEq, 4));
+
+        var realSmallEx = new ExpressionMathTask.Generator(0, 0.01, 1,
+                EnumSet.of(MathOperator.MULTIPLICATION, MathOperator.DIVISION));
+        quizMap.put("RSEx", new Quiz(realSmallEx, 4));
+
         var realExpTG1 = new ExpressionMathTask.Generator(-10, 10, 2,
                 EnumSet.of(MathOperator.SUM, MathOperator.DIFFERENCE, MathOperator.MULTIPLICATION,
                         MathOperator.DIVISION));
@@ -60,7 +68,7 @@ public class Program {
         return quizMap;
     }
 
-    private static void CheckErrorTasks() throws NotHandledEnumElementException, RuntimeException {
+    private static void CheckErrorTasks() throws RuntimeException {
         try {
             new ExpressionMathTask(1, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
@@ -130,7 +138,7 @@ public class Program {
         }
 
         var test = quizMap.get(test_name);
-        while (!test.isFinished()) {  // TODO: hide nextTask(). It should be more encapsulated.
+        while (!test.isFinished()) {
             var task = test.nextTask();
             System.out.println(task.getText());
 

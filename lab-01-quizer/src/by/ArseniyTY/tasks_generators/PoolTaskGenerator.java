@@ -16,7 +16,7 @@ public class PoolTaskGenerator implements Task.Generator {
         this(allowDuplicate, List.of(tasks));
     }
 
-    public PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) {
+    public PoolTaskGenerator(boolean allowDuplicate, List<Task> tasks) throws IllegalArgumentException {
         this.allowDuplicate = allowDuplicate;
         setAvailableTaskIndices(tasks.size());
         setTasks(tasks);
@@ -29,7 +29,7 @@ public class PoolTaskGenerator implements Task.Generator {
         }
     }
 
-    private void setTasks(List<Task> tasks) {
+    private void setTasks(List<Task> tasks) throws IllegalArgumentException {
         if (tasks.isEmpty()) {
             throw new IllegalArgumentException();
         }

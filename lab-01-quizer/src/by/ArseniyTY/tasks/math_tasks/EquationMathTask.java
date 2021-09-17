@@ -45,11 +45,12 @@ public class EquationMathTask extends AbstractMathTask {
 
     @Override
     public String getAnswer() {
-        if ((operatorType == MathOperator.MULTIPLICATION
-          || operatorType == MathOperator.DIVISION)
-                && Double.compare(number1, 0) == 0
-                && Double.compare(number2, 0) == 0) {
-            return "NOT_ZERO";
+        if (Double.compare(number1, 0) == 0 && Double.compare(number2, 0) == 0) {
+            if (operatorType == MathOperator.MULTIPLICATION) {
+                return "ANY";
+            } else if (operatorType == MathOperator.DIVISION) {
+                return "NOT_ZERO";
+            }
         }
 
         double answer = switch (operatorType) {
