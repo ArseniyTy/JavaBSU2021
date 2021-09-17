@@ -68,6 +68,48 @@ public class Program {
         return quizMap;
     }
 
+    public static void main(String[] args) throws QuizNotFinishedException, NotHandledEnumElementException,
+            NotEnoughTasksException, IncorrectTaskConditionsException {
+        CheckErrorTasks();
+
+        Scanner scanner = new Scanner(System.in);
+
+        var quizMap = getQuizMap();
+        System.out.println("List of available tests:");
+        for (var testName : quizMap.keySet()) {
+            System.out.println(testName);
+        }
+
+        System.out.println("Enter test name ...");
+        var test_name = scanner.nextLine();
+        while (!quizMap.containsKey(test_name)) {
+            System.out.println("No such test name. Enter test name again ...");
+            test_name = scanner.nextLine();
+        }
+
+        var test = quizMap.get(test_name);
+        while (!test.isFinished()) {
+            var task = test.nextTask();
+            System.out.println(task.getText());
+
+            System.out.println("Your answer ... ");
+            var result = test.provideAnswer(scanner.nextLine());
+            while (result == Result.INCORRECT_INPUT) {
+                System.out.println("Incorrect input. Enter your answer again ... ");
+                result = test.provideAnswer(scanner.nextLine());
+            }
+            switch (result) {
+                case OK, WRONG -> System.out.println(result + "!");
+                default -> throw new NotHandledEnumElementException();
+            }
+        }
+        System.out.println("Your mark is " + test.getMark());
+    }
+
+    /**
+     * Checks possible cases of tasks, that can generate errors.
+     * @throws RuntimeException
+     */
     private static void CheckErrorTasks() throws RuntimeException {
         try {
             new ExpressionMathTask(1, 0, MathOperator.DIVISION);
@@ -116,44 +158,9 @@ public class Program {
             new EquationMathTask(0.00, 1.00, 2, MathOperator.MULTIPLICATION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
-    }
-
-    public static void main(String[] args) throws QuizNotFinishedException, NotHandledEnumElementException,
-            NotEnoughTasksException, IncorrectTaskConditionsException {
-        CheckErrorTasks();
-
-        Scanner scanner = new Scanner(System.in);
-
-        var quizMap = getQuizMap();
-        System.out.println("List of available tests:");
-        for (var testName : quizMap.keySet()) {
-            System.out.println(testName);
-        }
-
-        System.out.println("Enter test name ...");
-        var test_name = scanner.nextLine();
-        while (!quizMap.containsKey(test_name)) {
-            System.out.println("No such test name. Enter test name again ...");
-            test_name = scanner.nextLine();
-        }
-
-        var test = quizMap.get(test_name);
-        while (!test.isFinished()) {
-            var task = test.nextTask();
-            System.out.println(task.getText());
-
-            System.out.println("Your answer ... ");
-            var result = test.provideAnswer(scanner.nextLine());
-            while (result == Result.INCORRECT_INPUT) {
-                System.out.println("Incorrect input. Enter your answer again ... ");
-                result = test.provideAnswer(scanner.nextLine());
-            }
-            switch (result) {
-                case OK -> System.out.println("OK!");
-                case WRONG -> System.out.println("WRONG!");
-                default -> throw new NotHandledEnumElementException();
-            }
-        }
-        System.out.println("Your mark is " + test.getMark());
+        try {
+            new EquationMathTask(1, 1, -1, MathOperator.MULTIPLICATION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IllegalArgumentException | IncorrectTaskConditionsException ignored) {}
     }
 }
