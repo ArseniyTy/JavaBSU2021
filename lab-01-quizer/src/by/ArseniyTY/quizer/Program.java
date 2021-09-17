@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Program {
-    private static Map<String, Quiz> getQuizMap() throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+    private static Map<String, Quiz> getQuizMap() throws IncorrectTaskConditionsException {
         var quizMap = new HashMap<String, Quiz>();
 
         var intExpTG1 = new ExpressionMathTask.Generator(-10, 10,
@@ -110,9 +110,8 @@ public class Program {
         } catch (IncorrectTaskConditionsException ignored) {}
     }
 
-    public static void main(String[] args)
-            throws QuizNotFinishedException, NotHandledEnumElementException, NotEnoughTasksException,
-            IncorrectTaskConditionsException {
+    public static void main(String[] args) throws QuizNotFinishedException, NotHandledEnumElementException,
+            NotEnoughTasksException, IncorrectTaskConditionsException {
         CheckErrorTasks();
 
         Scanner scanner = new Scanner(System.in);

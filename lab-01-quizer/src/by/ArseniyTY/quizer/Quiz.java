@@ -13,19 +13,19 @@ class Quiz {
     private int wrongAnswerNumber = 0;
     private int incorrectInputNumber = 0;
 
-    Quiz(Task.Generator generator, int taskCount) {
+    Quiz(Task.Generator generator, int taskCount) throws IllegalArgumentException {
         this.generator = generator;
         setTaskCount(taskCount);
     }
 
-    private void setTaskCount(int taskCount) {
+    private void setTaskCount(int taskCount) throws IllegalArgumentException {
         if (taskCount <= 0) {
             throw new IllegalArgumentException();
         }
         this.taskCount = taskCount;
     }
 
-      Task nextTask() throws NotHandledEnumElementException, NotEnoughTasksException {
+      Task nextTask() throws NotEnoughTasksException {
         if (isCurrentTaskFinished) {
             current_task = generator.generate();
             isCurrentTaskFinished = false;
@@ -45,6 +45,7 @@ class Quiz {
                 isCurrentTaskFinished = true;
             }
             case INCORRECT_INPUT -> incorrectInputNumber++;
+            default -> throw new NotHandledEnumElementException();
         }
         return result;
     }
