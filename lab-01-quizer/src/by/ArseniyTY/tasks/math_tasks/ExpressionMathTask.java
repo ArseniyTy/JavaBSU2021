@@ -42,7 +42,7 @@ public class ExpressionMathTask extends AbstractMathTask {
 
     @Override
     public String getText() {
-        return getNumber1() + getOperatorStringRepresentation() + getNumber2() + "=?";
+        return getNumber1() + operatorType.toString() + getNumber2() + "=?";
     }
 
     @Override

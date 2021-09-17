@@ -123,13 +123,4 @@ abstract class AbstractMathTask implements MathTask {
         }
         return Objects.equals(answer, getAnswer()) ? Result.OK : Result.WRONG;
     }
-
-    protected String getOperatorStringRepresentation() {
-        return switch (operatorType) {
-            case SUM -> "+";
-            case DIFFERENCE -> "-";
-            case MULTIPLICATION -> "*";
-            case DIVISION -> "/";
-        };
-    }
 }
