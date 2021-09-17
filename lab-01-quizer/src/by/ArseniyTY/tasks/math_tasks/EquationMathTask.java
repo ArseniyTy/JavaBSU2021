@@ -1,23 +1,22 @@
 package by.ArseniyTY.tasks.math_tasks;
 
 import by.ArseniyTY.exceptions.IncorrectTaskConditionsException;
-import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
 
 import java.util.EnumSet;
 
 public class EquationMathTask extends AbstractMathTask {
     public static class Generator extends AbstractMathTask.Generator {
-        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperatorType> operators) {
+        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperator> operators) {
             super(minNumber, maxNumber, precision, operators);
         }
 
-        public Generator(double minNumber, double maxNumber, EnumSet<MathOperatorType> operators) {
+        public Generator(double minNumber, double maxNumber, EnumSet<MathOperator> operators) {
             super(minNumber, maxNumber, operators);
         }
 
         @Override
-        public Task generate() throws NotHandledEnumElementException {
+        public Task generate() {
             EquationMathTask task;
             do {
                 try {
@@ -30,13 +29,12 @@ public class EquationMathTask extends AbstractMathTask {
         }
     }
 
-    public EquationMathTask(double number1, double number2, int precision, MathOperatorType type)
-            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+    public EquationMathTask(double number1, double number2, int precision, MathOperator type)
+            throws IncorrectTaskConditionsException {
         super(number1, number2, precision, type);
     }
 
-    public EquationMathTask(double number1, double number2, MathOperatorType type)
-            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+    public EquationMathTask(double number1, double number2, MathOperator type) throws IncorrectTaskConditionsException {
         super(number1, number2, type);
     }
 
@@ -47,8 +45,8 @@ public class EquationMathTask extends AbstractMathTask {
 
     @Override
     public String getAnswer() {
-        if ((operatorType == MathOperatorType.MULTIPLICATION
-          || operatorType == MathOperatorType.DIVISION)
+        if ((operatorType == MathOperator.MULTIPLICATION
+          || operatorType == MathOperator.DIVISION)
                 && Double.compare(number1, 0) == 0
                 && Double.compare(number2, 0) == 0) {
             return "NOT_ZERO";
@@ -61,7 +59,7 @@ public class EquationMathTask extends AbstractMathTask {
             case DIVISION -> number1 / number2;
         };
 
-        if (operatorType == MathOperatorType.DIVISION && Double.compare(answer, 0) == 0) {
+        if (operatorType == MathOperator.DIVISION && Double.compare(answer, 0) == 0) {
             throw new ArithmeticException();
         }
         return DoubleRounder.GetDoubleStringWithPrecision(answer, precision);

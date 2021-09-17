@@ -1,23 +1,22 @@
 package by.ArseniyTY.tasks.math_tasks;
 
 import by.ArseniyTY.exceptions.IncorrectTaskConditionsException;
-import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
 
 import java.util.EnumSet;
 
 public class ExpressionMathTask extends AbstractMathTask {
     public static class Generator extends AbstractMathTask.Generator {
-        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperatorType> operators) {
+        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperator> operators) {
             super(minNumber, maxNumber, precision, operators);
         }
 
-        public Generator(double minNumber, double maxNumber, EnumSet<MathOperatorType> operators) {
+        public Generator(double minNumber, double maxNumber, EnumSet<MathOperator> operators) {
             super(minNumber, maxNumber, operators);
         }
 
         @Override
-        public Task generate() throws NotHandledEnumElementException {
+        public Task generate() {
             ExpressionMathTask task;
             do {
                 try {
@@ -30,13 +29,13 @@ public class ExpressionMathTask extends AbstractMathTask {
         }
     }
 
-    public ExpressionMathTask(double number1, double number2, int precision, MathOperatorType type)
-            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+    public ExpressionMathTask(double number1, double number2, int precision, MathOperator type)
+            throws IncorrectTaskConditionsException {
         super(number1, number2, precision, type);
     }
 
-    public ExpressionMathTask(double number1, double number2, MathOperatorType type)
-            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+    public ExpressionMathTask(double number1, double number2, MathOperator type)
+            throws IncorrectTaskConditionsException {
         super(number1, number2, type);
     }
 

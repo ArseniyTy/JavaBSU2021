@@ -1,6 +1,6 @@
 package by.ArseniyTY.tasks.math_tasks;
 
-public enum MathOperatorType {
+public enum MathOperator {
     SUM("+") {
         @Override
         public double getResult(double number1, double number2) {
@@ -28,7 +28,7 @@ public enum MathOperatorType {
 
     private final String stringRepresentation;
 
-    MathOperatorType(String stringRepresentation) {
+    MathOperator(String stringRepresentation) {
         this.stringRepresentation = stringRepresentation;
     }
 

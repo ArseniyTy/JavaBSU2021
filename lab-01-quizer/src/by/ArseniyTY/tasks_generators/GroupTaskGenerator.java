@@ -1,7 +1,6 @@
 package by.ArseniyTY.tasks_generators;
 
 import by.ArseniyTY.exceptions.NotEnoughTasksException;
-import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class GroupTaskGenerator implements Task.Generator {
     }
 
     @Override
-    public Task generate() throws NotHandledEnumElementException, NotEnoughTasksException {
+    public Task generate() throws NotEnoughTasksException {
         return generators.get(ThreadLocalRandom.current().nextInt(0, generators.size())).generate();
     }
 }

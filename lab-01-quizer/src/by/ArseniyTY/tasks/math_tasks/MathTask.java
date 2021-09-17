@@ -1,6 +1,5 @@
 package by.ArseniyTY.tasks.math_tasks;
 
-import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
 
 interface MathTask extends Task {
@@ -13,9 +12,9 @@ interface MathTask extends Task {
         }
     }
 
-    String getAnswer() throws NotHandledEnumElementException;
+    String getAnswer();
 
-    default boolean isArithmeticCorrect() throws NotHandledEnumElementException {
+    default boolean isArithmeticCorrect() {
         try {
             getAnswer();
         } catch (ArithmeticException | NumberFormatException ex) {

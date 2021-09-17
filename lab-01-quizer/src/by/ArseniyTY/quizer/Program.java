@@ -19,23 +19,23 @@ public class Program {
         var quizMap = new HashMap<String, Quiz>();
 
         var intExpTG1 = new ExpressionMathTask.Generator(-10, 10,
-                EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
-                        MathOperatorType.DIVISION));
+                EnumSet.of(MathOperator.SUM, MathOperator.DIFFERENCE, MathOperator.MULTIPLICATION,
+                        MathOperator.DIVISION));
         quizMap.put("IEx", new Quiz(intExpTG1, 2));
 
         var intEqTG1 = new EquationMathTask.Generator(-10, 10,
-                EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
-                        MathOperatorType.DIVISION));
+                EnumSet.of(MathOperator.SUM, MathOperator.DIFFERENCE, MathOperator.MULTIPLICATION,
+                        MathOperator.DIVISION));
         quizMap.put("IEq", new Quiz(intEqTG1, 2));
 
         var realExpTG1 = new ExpressionMathTask.Generator(-10, 10, 2,
-                EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
-                        MathOperatorType.DIVISION));
+                EnumSet.of(MathOperator.SUM, MathOperator.DIFFERENCE, MathOperator.MULTIPLICATION,
+                        MathOperator.DIVISION));
         quizMap.put("REx", new Quiz(realExpTG1, 2));
 
         var realEqTG1 = new EquationMathTask.Generator(-10, 10, 2,
-                EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
-                        MathOperatorType.DIVISION));
+                EnumSet.of(MathOperator.SUM, MathOperator.DIFFERENCE, MathOperator.MULTIPLICATION,
+                        MathOperator.DIVISION));
         quizMap.put("REq", new Quiz(realEqTG1, 2));
 
         var textT1 = new TextTask("Who is the best programmer ever?", "me");
@@ -48,12 +48,12 @@ public class Program {
 
 
         var intEqTG2 = new EquationMathTask.Generator(0, 1,
-                EnumSet.of(MathOperatorType.DIVISION));
+                EnumSet.of(MathOperator.DIVISION));
         quizMap.put("IEq2", new Quiz(intEqTG2, 10));
 
         var poolTG2 = new PoolTaskGenerator(false,
-                new EquationMathTask(0, 0, 0, MathOperatorType.MULTIPLICATION),
-                new ExpressionMathTask(2, 0.01, 2, MathOperatorType.DIVISION),
+                new EquationMathTask(0, 0, 0, MathOperator.MULTIPLICATION),
+                new ExpressionMathTask(2, 0.01, 2, MathOperator.DIVISION),
                 new TextTask("Who is who?", "me"));
         quizMap.put("PT2", new Quiz(poolTG2, 3));
 
@@ -62,50 +62,50 @@ public class Program {
 
     private static void CheckErrorTasks() throws NotHandledEnumElementException, RuntimeException {
         try {
-            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            new ExpressionMathTask(1, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            new ExpressionMathTask(1, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new ExpressionMathTask(0, 0, MathOperatorType.DIVISION);
+            new ExpressionMathTask(0, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            new ExpressionMathTask(1, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new EquationMathTask(0, 1, MathOperatorType.DIVISION);
+            new EquationMathTask(0, 1, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new EquationMathTask(1, 0, MathOperatorType.DIVISION);
+            new EquationMathTask(1, 0, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new EquationMathTask(0, 1, MathOperatorType.MULTIPLICATION);
+            new EquationMathTask(0, 1, MathOperator.MULTIPLICATION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new ExpressionMathTask(1.0, 0.0, 2, MathOperatorType.DIVISION);
+            new ExpressionMathTask(1.0, 0.0, 2, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new ExpressionMathTask(0.0, 0.0, 2, MathOperatorType.DIVISION);
+            new ExpressionMathTask(0.0, 0.0, 2, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new EquationMathTask(0.00, 1.00, 2, MathOperatorType.DIVISION);
+            new EquationMathTask(0.00, 1.00, 2, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}try {
-            new EquationMathTask(1.00, 0.00, 2, MathOperatorType.DIVISION);
+            new EquationMathTask(1.00, 0.00, 2, MathOperator.DIVISION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
         try {
-            new EquationMathTask(0.00, 1.00, 2, MathOperatorType.MULTIPLICATION);
+            new EquationMathTask(0.00, 1.00, 2, MathOperator.MULTIPLICATION);
             throw new RuntimeException("This task must throw exception");
         } catch (IncorrectTaskConditionsException ignored) {}
     }
