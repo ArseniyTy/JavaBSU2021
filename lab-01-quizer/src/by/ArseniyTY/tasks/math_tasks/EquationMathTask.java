@@ -8,9 +8,12 @@ import java.util.EnumSet;
 
 public class EquationMathTask extends AbstractMathTask {
     public static class Generator extends AbstractMathTask.Generator {
-        public Generator(int precision, double minNumber, double maxNumber,
-                         EnumSet<MathOperatorType> operators) {
-            super(precision, minNumber, maxNumber, operators);
+        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperatorType> operators) {
+            super(minNumber, maxNumber, precision, operators);
+        }
+
+        public Generator(double minNumber, double maxNumber, EnumSet<MathOperatorType> operators) {
+            super(minNumber, maxNumber, operators);
         }
 
         @Override
@@ -18,7 +21,7 @@ public class EquationMathTask extends AbstractMathTask {
             EquationMathTask task;
             do {
                 try {
-                    task = new EquationMathTask(precision, generateNumber(), generateNumber(), generateOperator());
+                    task = new EquationMathTask(generateNumber(), generateNumber(), precision, generateOperator());
                 } catch (IncorrectTaskConditionsException ignored) {
                     task = null;
                 }
@@ -27,9 +30,14 @@ public class EquationMathTask extends AbstractMathTask {
         }
     }
 
-    public EquationMathTask(int precision, double number1, double number2, MathOperatorType type)
+    public EquationMathTask(double number1, double number2, int precision, MathOperatorType type)
             throws NotHandledEnumElementException, IncorrectTaskConditionsException {
-        super(precision, number1, number2, type);
+        super(number1, number2, precision, type);
+    }
+
+    public EquationMathTask(double number1, double number2, MathOperatorType type)
+            throws NotHandledEnumElementException, IncorrectTaskConditionsException {
+        super(number1, number2, type);
     }
 
     @Override

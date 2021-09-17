@@ -4,6 +4,15 @@ import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.quizer.Task;
 
 interface MathTask extends Task {
+    interface Generator extends Task.Generator {
+        double getMinNumber();
+        double getMaxNumber();
+
+        default double getDiffNumber() {
+            return getMaxNumber() - getMinNumber();
+        }
+    }
+
     String getAnswer() throws NotHandledEnumElementException;
 
     default boolean isArithmeticCorrect() throws NotHandledEnumElementException {
@@ -13,14 +22,5 @@ interface MathTask extends Task {
             return false;
         }
         return true;
-    }
-
-    interface Generator extends Task.Generator {
-        double getMinNumber();
-        double getMaxNumber();
-
-        default double getDiffNumber() {
-            return getMaxNumber() - getMinNumber();
-        }
     }
 }

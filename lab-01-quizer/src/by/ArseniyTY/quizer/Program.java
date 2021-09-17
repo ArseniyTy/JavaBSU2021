@@ -18,22 +18,22 @@ public class Program {
     private static Map<String, Quiz> getQuizMap() throws NotHandledEnumElementException, IncorrectTaskConditionsException {
         var quizMap = new HashMap<String, Quiz>();
 
-        var intExpTG1 = new ExpressionMathTask.Generator(0, -10, 10,
+        var intExpTG1 = new ExpressionMathTask.Generator(-10, 10,
                 EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
                         MathOperatorType.DIVISION));
         quizMap.put("IEx", new Quiz(intExpTG1, 2));
 
-        var intEqTG1 = new EquationMathTask.Generator(0, -10, 10,
+        var intEqTG1 = new EquationMathTask.Generator(-10, 10,
                 EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
                         MathOperatorType.DIVISION));
         quizMap.put("IEq", new Quiz(intEqTG1, 2));
 
-        var realExpTG1 = new ExpressionMathTask.Generator(2, -10, 10,
+        var realExpTG1 = new ExpressionMathTask.Generator(-10, 10, 2,
                 EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
                         MathOperatorType.DIVISION));
         quizMap.put("REx", new Quiz(realExpTG1, 2));
 
-        var realEqTG1 = new EquationMathTask.Generator(2, -10, 10,
+        var realEqTG1 = new EquationMathTask.Generator(-10, 10, 2,
                 EnumSet.of(MathOperatorType.SUM, MathOperatorType.DIFFERENCE, MathOperatorType.MULTIPLICATION,
                         MathOperatorType.DIVISION));
         quizMap.put("REq", new Quiz(realEqTG1, 2));
@@ -47,7 +47,7 @@ public class Program {
                 new GroupTaskGenerator(intExpTG1, realExpTG1, intEqTG1, realEqTG1, poolTG1), 10));
 
 
-        var intEqTG2 = new EquationMathTask.Generator(0, 0, 1,
+        var intEqTG2 = new EquationMathTask.Generator(0, 1,
                 EnumSet.of(MathOperatorType.DIVISION));
         quizMap.put("IEq2", new Quiz(intEqTG2, 10));
 
@@ -60,60 +60,60 @@ public class Program {
         return quizMap;
     }
 
-//    private static void CheckErrorTasks() throws NotHandledEnumElementException, RuntimeException {
-//        try {
-//            new IntegerExpressionMathTask(1, 0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerExpressionMathTask(1, 0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerExpressionMathTask(0, 0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerExpressionMathTask(1, 0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerEquationMathTask(0, 1, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerEquationMathTask(1, 0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new IntegerEquationMathTask(0, 1, MathOperatorType.MULTIPLICATION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new RealExpressionMathTask(2, 1.0, 0.0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new RealExpressionMathTask(2, 0.0, 0.0, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new RealEquationMathTask(2, 0.00, 1.00, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}try {
-//            new RealEquationMathTask(2, 1.00, 0.00, MathOperatorType.DIVISION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//        try {
-//            new RealEquationMathTask(2, 0.00, 1.00, MathOperatorType.MULTIPLICATION);
-//            throw new RuntimeException("This task must throw exception");
-//        } catch (IncorrectTaskConditionsException ignored) {}
-//    }
+    private static void CheckErrorTasks() throws NotHandledEnumElementException, RuntimeException {
+        try {
+            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new ExpressionMathTask(0, 0, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new ExpressionMathTask(1, 0, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new EquationMathTask(0, 1, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new EquationMathTask(1, 0, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new EquationMathTask(0, 1, MathOperatorType.MULTIPLICATION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new ExpressionMathTask(1.0, 0.0, 2, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new ExpressionMathTask(0.0, 0.0, 2, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new EquationMathTask(0.00, 1.00, 2, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}try {
+            new EquationMathTask(1.00, 0.00, 2, MathOperatorType.DIVISION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+        try {
+            new EquationMathTask(0.00, 1.00, 2, MathOperatorType.MULTIPLICATION);
+            throw new RuntimeException("This task must throw exception");
+        } catch (IncorrectTaskConditionsException ignored) {}
+    }
 
     public static void main(String[] args)
             throws QuizNotFinishedException, NotHandledEnumElementException, NotEnoughTasksException,
             IncorrectTaskConditionsException {
-//        CheckErrorTasks();
+        CheckErrorTasks();
 
         Scanner scanner = new Scanner(System.in);
 
