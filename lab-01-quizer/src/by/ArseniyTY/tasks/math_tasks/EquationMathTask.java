@@ -46,27 +46,23 @@ public class EquationMathTask extends AbstractMathTask {
     }
 
     @Override
-    public String getAnswer() throws NotHandledEnumElementException {
-        double answer;
-        switch (operatorType) {
-            case SUM -> answer = number2 - number1;
-            case DIFFERENCE -> answer = number1 - number2;
-            case MULTIPLICATION -> {
-                if (Double.compare(number1, 0) == 0 && Double.compare(number2, 0) == 0) {
-                    return "NOT_ZERO";
-                }
-                answer = number2 / number1;
-            }
-            case DIVISION -> {
-                if (Double.compare(number1, 0) == 0 && Double.compare(number2, 0) == 0) {
-                    return "NOT_ZERO";
-                }
-                answer = number1 / number2;
-                if (Double.compare(answer, 0) == 0) {
-                    throw new ArithmeticException();
-                }
-            }
-            default -> throw new NotHandledEnumElementException();
+    public String getAnswer() {
+        if ((operatorType == MathOperatorType.MULTIPLICATION
+          || operatorType == MathOperatorType.DIVISION)
+                && Double.compare(number1, 0) == 0
+                && Double.compare(number2, 0) == 0) {
+            return "NOT_ZERO";
+        }
+
+        double answer = switch (operatorType) {
+            case SUM -> number2 - number1;
+            case DIFFERENCE -> number1 - number2;
+            case MULTIPLICATION -> number2 / number1;
+            case DIVISION -> number1 / number2;
+        };
+
+        if (operatorType == MathOperatorType.DIVISION && Double.compare(answer, 0) == 0) {
+            throw new ArithmeticException();
         }
         return DoubleRounder.GetDoubleStringWithPrecision(answer, precision);
     }

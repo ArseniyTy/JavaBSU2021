@@ -46,13 +46,7 @@ public class ExpressionMathTask extends AbstractMathTask {
     }
 
     @Override
-    public String getAnswer() throws NotHandledEnumElementException {
-        double answer = switch (operatorType) {
-            case SUM -> number1 + number2;
-            case DIFFERENCE -> number1 - number2;
-            case MULTIPLICATION -> number1 * number2;
-            case DIVISION -> number1 / number2;
-        };
-        return DoubleRounder.GetDoubleStringWithPrecision(answer, precision);
+    public String getAnswer() {
+        return DoubleRounder.GetDoubleStringWithPrecision(operatorType.getResult(number1, number2), precision);
     }
 }
