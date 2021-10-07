@@ -1,0 +1,45 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group 'by.ArseniyTY'
+version '1.0-snapshot'
+
+repositories {
+    mavenCentral()
+}
+
+//dependencies {
+//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+//}
+
+//test {
+//    useJUnitPlatform()
+//}
+
+//task publish {
+//    group("custom tasks")
+//    doLast {
+//        println "Library published"
+//    }
+//}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/ArseniyTy/JavaBSU2021"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
