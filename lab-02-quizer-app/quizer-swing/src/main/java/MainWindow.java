@@ -2,51 +2,35 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MainWindow {
-    private JFrame frame = new JFrame();
+public class MainWindow extends JFrame {
     private JList<String> list;
-//    private int rowsCount = 3;
-//    private int columnsCount = 3;
-//    private JPanel[][] panelHolder = new JPanel[rowsCount][columnsCount];
 
     public MainWindow() {
-//        frame.setLayout(new GridLayout(rowsCount, columnsCount, 1, 1));
+        super();
 
-//        for (int i = 0; i < rowsCount; i++) {
-//            for (int j = 0; j < columnsCount; j++) {
-//                panelHolder[i][j] = new JPanel();
-//                frame.add(panelHolder[i][j]);
-//                panelHolder[i][j].setBackground(Color.LIGHT_GRAY);  // TO_DELETE
-//            }
-//        }
+        setLayout(new GridBagLayout());
+        // allows in an awful way to use some normal grid layout features
+        GridBagConstraints gbc = new GridBagConstraints();
 
         JLabel label = new JLabel("List of tasks");
         label.setBounds(100, 0, 100,100);
-        frame.add(label);
-//        panelHolder[0][1].add(label);
-
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.ipady = 100;
+        add(label, gbc);
 
         DefaultListModel<String> lits_model = new DefaultListModel<>();
         lits_model.addElement("Item1");
-        lits_model.addElement("Item2");
+        lits_model.addElement("Wrfkaejwkj;c;klsdjfoijaiofjio[ew[jfijasidjl;kasdjfkljasf");
         list = new JList<>(lits_model);
-        list.setBounds(100,100, 200,200);
-        frame.add(list);
-//        panelHolder[1][1].add(list);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        add(list, gbc);
 
 
-        frame.setMinimumSize(new Dimension(400, 500));
-        frame.setLayout(null);  // musthave !!!
-        frame.setVisible(true);
-
-        frame.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent componentEvent) {
-                label.setLocation((frame.getWidth() - label.getWidth()) / 2,
-                                label.getHeight() / 4);
-                list.setLocation((frame.getWidth() - list.getWidth()) / 2,
-                                (frame.getHeight() - list.getHeight()) / 2);
-            }
-        });
+        setMinimumSize(new Dimension(400, 500));
+//        setLayout(null);  // musthave, if not layout
+        setVisible(true);
 
         addListActionListener();
     }
@@ -79,7 +63,7 @@ public class MainWindow {
     }
 
     private void openTaskWindow() {
-        frame.setVisible(false);
+        setVisible(false);
         new TaskWindow(this);
     }
 }

@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class TaskWindow {
-    private JFrame frame = new JFrame();
+public class TaskWindow extends JFrame {
+    public TaskWindow(JFrame parentWindow) {  // better to pass abstract window, so create it
+        super();
 
-    public TaskWindow(MainWindow window) {  // better to pass abstract window, so create it
         int rowsCount = 4;
         int columnsCount = 2;
-        frame.setLayout(new GridLayout(rowsCount, columnsCount, 10, 10));
+        setLayout(new GridLayout(rowsCount, columnsCount, 10, 10));
 
         // KOSTYL. REASON: Can't put elements to certain cells in GridLayout.
         JPanel[][] panelHolder = new JPanel[rowsCount][columnsCount];
@@ -18,7 +18,7 @@ public class TaskWindow {
             for (int j = 0; j < columnsCount; j++) {
                 panelHolder[i][j] = new JPanel();
                 panelHolder[i][j].setLayout(new GridBagLayout());  // GridBag -- allows alignment (default -- center)
-                frame.add(panelHolder[i][j]);
+                add(panelHolder[i][j]);
                 panelHolder[i][j].setBackground(Color.LIGHT_GRAY);  // TO_DELETE
             }
         }
@@ -42,10 +42,11 @@ public class TaskWindow {
 
 
         // Add listener to |answerTextField|, because exactly this component is always active, not the |frame|
+        var self = this;  // to pass it below
         answerTextField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    JOptionPane.showMessageDialog(frame,
+                    JOptionPane.showMessageDialog(self,
                             "OK",
                             "Question result",
                             JOptionPane.INFORMATION_MESSAGE);
@@ -53,7 +54,7 @@ public class TaskWindow {
             }
         });
 
-        frame.setMinimumSize(new Dimension(400, 500));
-        frame.setVisible(true);
+        setMinimumSize(parentWindow.getMinimumSize());
+        setVisible(true);
     }
 }
