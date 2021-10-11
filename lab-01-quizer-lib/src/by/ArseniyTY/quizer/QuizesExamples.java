@@ -61,6 +61,10 @@ public class QuizesExamples {
                 new TextTask("Who is who?", "me"));
         quizMap.put("PT2", new Quiz(poolTG2, 3));
 
+        var textT = new TextTask("SimpleDimple or PopIt?", "PopIt");
+        quizMap.put("The special task (no such task in CLI)",
+                new Quiz(new PoolTaskGenerator(false, textT), 1));
+
         return quizMap;
     }
 }
