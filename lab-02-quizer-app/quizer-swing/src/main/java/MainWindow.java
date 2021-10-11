@@ -1,3 +1,9 @@
+import by.ArseniyTY.exceptions.IncorrectTaskConditionsException;
+import by.ArseniyTY.exceptions.NotEnoughTasksException;
+import by.ArseniyTY.exceptions.QuizNotFinishedException;
+import by.ArseniyTY.quizer.Quiz;
+import by.ArseniyTY.quizer.QuizesExamples;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,10 +11,16 @@ import java.awt.event.*;
 public class MainWindow extends JFrame {
     private JList<String> list;
 
-    public MainWindow() {
+    public MainWindow() throws IncorrectTaskConditionsException {
         super();
 
+        setMinimumSize(new Dimension(400, 500));
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        setLayout(null);  // musthave, if no layout
         setLayout(new GridBagLayout());
+
+
         // allows in an awful way to use some normal grid layout features
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -19,19 +31,14 @@ public class MainWindow extends JFrame {
         gbc.ipady = 100;
         add(label, gbc);
 
-        DefaultListModel<String> lits_model = new DefaultListModel<>();
-        lits_model.addElement("Item1");
-        lits_model.addElement("Wrfkaejwkj;c;klsdjfoijaiofjio[ew[jfijasidjl;kasdjfkljasf");
-        list = new JList<>(lits_model);
+        var listModel = new DefaultListModel<String>();
+        for (var quizName : QuizesExamples.getQuizMap().keySet()) {
+            listModel.addElement(quizName);
+        }
+        list = new JList<>(listModel);
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(list, gbc);
-
-
-        setMinimumSize(new Dimension(400, 500));
-//        setLayout(null);  // musthave, if not layout
-        setVisible(true);
-
         addListActionListener();
     }
 
@@ -39,9 +46,12 @@ public class MainWindow extends JFrame {
         ActionListener listAL = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedItem = list.getSelectedValue();
-                System.out.println(selectedItem);
-                openTaskWindow();
+                try {
+                    openTaskWindow(QuizesExamples.getQuizMap().get(list.getSelectedValue()));
+                } catch (IncorrectTaskConditionsException | QuizNotFinishedException | NotEnoughTasksException ex) {
+                    ex.printStackTrace();
+                    System.exit(1);
+                }
             }
         };
 
@@ -62,8 +72,8 @@ public class MainWindow extends JFrame {
 
     }
 
-    private void openTaskWindow() {
+    private void openTaskWindow(Quiz quiz) throws QuizNotFinishedException, NotEnoughTasksException {
         setVisible(false);
-        new TaskWindow(this);
+        new TaskWindow(this, quiz);
     }
 }
