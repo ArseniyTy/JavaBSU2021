@@ -1,9 +1,6 @@
 package by.ArseniyTY.quizer;
 
 import by.ArseniyTY.exceptions.IncorrectTaskConditionsException;
-import by.ArseniyTY.exceptions.NotEnoughTasksException;
-import by.ArseniyTY.exceptions.NotHandledEnumElementException;
-import by.ArseniyTY.exceptions.QuizNotFinishedException;
 import by.ArseniyTY.tasks.math_tasks.*;
 import by.ArseniyTY.tasks.TextTask;
 import by.ArseniyTY.tasks_generators.GroupTaskGenerator;
@@ -12,10 +9,9 @@ import by.ArseniyTY.tasks_generators.PoolTaskGenerator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
-public class Program {
-    private static Map<String, Quiz> getQuizMap() throws IncorrectTaskConditionsException {
+public class QuizesExamples {
+    public static Map<String, Quiz> getQuizMap() throws IncorrectTaskConditionsException {
         var quizMap = new HashMap<String, Quiz>();
 
         var intExpTG1 = new ExpressionMathTask.Generator(-10, 10,

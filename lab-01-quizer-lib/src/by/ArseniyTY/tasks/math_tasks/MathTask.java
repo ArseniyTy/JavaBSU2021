@@ -2,7 +2,7 @@ package by.ArseniyTY.tasks.math_tasks;
 
 import by.ArseniyTY.quizer.Task;
 
-interface MathTask extends Task {
+public interface MathTask extends Task {
     interface Generator extends Task.Generator {
         double getMinNumber();
         double getMaxNumber();

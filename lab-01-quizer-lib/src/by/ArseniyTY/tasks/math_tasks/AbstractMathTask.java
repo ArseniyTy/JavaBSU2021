@@ -8,14 +8,14 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-abstract class AbstractMathTask implements MathTask {
-    static abstract class Generator implements MathTask.Generator {
+public abstract class AbstractMathTask implements MathTask {
+    public static abstract class Generator implements MathTask.Generator {
         protected int precision;
         private double minNumber;
         private double maxNumber;
         private final EnumSet<MathOperator> operators;
 
-        Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperator> operators) {
+        public Generator(double minNumber, double maxNumber, int precision, EnumSet<MathOperator> operators) {
             setMinAndMaxNumber(minNumber, maxNumber);
             setPrecision(precision);
             this.operators = operators;
@@ -27,7 +27,7 @@ abstract class AbstractMathTask implements MathTask {
             }
         }
 
-        Generator(double minNumber, double maxNumber, EnumSet<MathOperator> operators) {
+        public Generator(double minNumber, double maxNumber, EnumSet<MathOperator> operators) {
             this(minNumber, maxNumber, 0, operators);
         }
 
@@ -78,7 +78,7 @@ abstract class AbstractMathTask implements MathTask {
     protected final double number2;
     protected final MathOperator operatorType;
 
-    AbstractMathTask(double number1, double number2, int precision, MathOperator type)
+    public AbstractMathTask(double number1, double number2, int precision, MathOperator type)
             throws IncorrectTaskConditionsException {
         this.number1 = DoubleRounder.GetDoubleWithPrecision(number1, precision);
         this.number2 = DoubleRounder.GetDoubleWithPrecision(number2, precision);
@@ -89,7 +89,7 @@ abstract class AbstractMathTask implements MathTask {
         }
     }
 
-    AbstractMathTask(double number1, double number2, MathOperator type) throws IncorrectTaskConditionsException {
+    public AbstractMathTask(double number1, double number2, MathOperator type) throws IncorrectTaskConditionsException {
         this(number1, number2, 0, type);
     }
 

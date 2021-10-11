@@ -4,7 +4,7 @@ import by.ArseniyTY.exceptions.NotEnoughTasksException;
 import by.ArseniyTY.exceptions.NotHandledEnumElementException;
 import by.ArseniyTY.exceptions.QuizNotFinishedException;
 
-class Quiz {
+public class Quiz {
     private final Task.Generator generator;
     private Task current_task;
     private boolean isCurrentTaskFinished = true;
@@ -13,7 +13,7 @@ class Quiz {
     private int wrongAnswerNumber = 0;
     private int incorrectInputNumber = 0;
 
-    Quiz(Task.Generator generator, int taskCount) throws IllegalArgumentException {
+    public Quiz(Task.Generator generator, int taskCount) throws IllegalArgumentException {
         this.generator = generator;
         setTaskCount(taskCount);
     }
@@ -25,7 +25,7 @@ class Quiz {
         this.taskCount = taskCount;
     }
 
-    Task nextTask() throws NotEnoughTasksException {
+    public Task nextTask() throws NotEnoughTasksException {
         if (isCurrentTaskFinished) {
             current_task = generator.generate();
             isCurrentTaskFinished = false;
@@ -33,7 +33,7 @@ class Quiz {
         return current_task;
     }
 
-    Result provideAnswer(String answer) throws NotHandledEnumElementException {
+    public Result provideAnswer(String answer) throws NotHandledEnumElementException {
         var result = current_task.validate(answer);
         switch (result) {
             case OK -> {
@@ -50,23 +50,23 @@ class Quiz {
         return result;
     }
 
-    boolean isFinished() {
+    public boolean isFinished() {
         return correctAnswerNumber + wrongAnswerNumber == taskCount;
     }
 
-    int getCorrectAnswerNumber() {
+    public int getCorrectAnswerNumber() {
         return correctAnswerNumber;
     }
 
-    int getWrongAnswerNumber() {
+    public int getWrongAnswerNumber() {
         return wrongAnswerNumber;
     }
 
-    int getIncorrectInputNumber() {
+    public int getIncorrectInputNumber() {
         return incorrectInputNumber;
     }
 
-    double getMark() throws QuizNotFinishedException {
+    public double getMark() throws QuizNotFinishedException {
         if (!isFinished()) {
             throw new QuizNotFinishedException();
         }
