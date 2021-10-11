@@ -18,5 +18,5 @@ repositories {
 }
 
 dependencies {
-    implementation 'by.ArseniyTY:lab-01-quizer-lib:1.4-snapshot'
+    implementation 'by.ArseniyTY:lab-01-quizer-lib:1.5-snapshot'
 }
