@@ -9,28 +9,37 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainWindow extends JFrame {
+
+    private final JLabel label = new JLabel("List of tasks");
     private JList<String> list;
 
-    public MainWindow() throws IncorrectTaskConditionsException {
-        super();
-
+    public MainWindow() {
+        try {
+            setUI();
+        } catch (IncorrectTaskConditionsException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         setMinimumSize(new Dimension(400, 500));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);  // Otherwise, the program will be still running
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private void setUI() throws IncorrectTaskConditionsException {
 //        setLayout(null);  // musthave, if no layout
         setLayout(new GridBagLayout());
-
 
         // allows in an awful way to use some normal grid layout features
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel label = new JLabel("List of tasks");
+        // label setup
         label.setBounds(100, 0, 100,100);
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.ipady = 100;
         add(label, gbc);
 
+        // list setup
         var listModel = new DefaultListModel<String>();
         for (var quizName : QuizesExamples.getQuizMap().keySet()) {
             listModel.addElement(quizName);
@@ -39,10 +48,10 @@ public class MainWindow extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(list, gbc);
-        addListActionListener();
+        setListActionListener();
     }
 
-    public void addListActionListener() {
+    private void setListActionListener() {
         ActionListener listAL = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

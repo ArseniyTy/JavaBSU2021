@@ -10,18 +10,32 @@ import java.awt.event.*;
 
 public class TaskWindow extends JFrame {
 
-    private final JFrame parentWindow;
     private final Quiz quiz;
-    private final JLabel taskLabel = new JLabel("Place for task");
-    private final JTextField answerTextField = new JTextField("Place for answer");
-    private final JLabel okAnswersLabel = new JLabel("OK: 3");
-    private final JLabel falseAnswersLabel = new JLabel("WRONG: 2");
+
+    private final JFrame parentWindow;
+    private final JLabel taskLabel = new JLabel();
+    private final JTextField answerTextField = new JTextField();
+    private final JLabel okAnswersLabel = new JLabel();
+    private final JLabel falseAnswersLabel = new JLabel();
 
     public TaskWindow(JFrame parentWindow, Quiz quiz) throws QuizNotFinishedException, NotEnoughTasksException {
-        super();
         this.parentWindow = parentWindow;
         this.quiz = quiz;
 
+        setUI();
+        setAnswerTextFieldListener();
+        updateWindow();
+
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                parentWindow.setVisible(true);
+            }
+        });
+        setMinimumSize(parentWindow.getMinimumSize());
+        setVisible(true);
+    }
+
+    private void setUI() {
         int rowsCount = 4;
         int columnsCount = 2;
         setLayout(new GridLayout(rowsCount, columnsCount, 10, 10));
@@ -33,22 +47,23 @@ public class TaskWindow extends JFrame {
                 panelHolder[i][j] = new JPanel();
                 panelHolder[i][j].setLayout(new GridBagLayout());  // GridBag -- allows alignment (default -- center)
                 add(panelHolder[i][j]);
-                panelHolder[i][j].setBackground(Color.LIGHT_GRAY);  // TO_DELETE
+//                panelHolder[i][j].setBackground(Color.LIGHT_GRAY);  // Comfortable to develop with it
             }
         }
 
         panelHolder[1][0].add(taskLabel);
+
         answerTextField.setPreferredSize(new Dimension(100, 20));  // Otherwise, is not shrinked in GridBagLayout
         panelHolder[2][0].add(answerTextField);
-
 
         var statisticsVerticalBox = Box.createVerticalBox();
         statisticsVerticalBox.add(okAnswersLabel);
         statisticsVerticalBox.add(falseAnswersLabel);
         panelHolder[1][1].add(statisticsVerticalBox);
+    }
 
-
-        // Add listener to |answerTextField|, because exactly this component is always active, not the |frame|
+    // Add listener to |answerTextField|, because exactly this component is always active, not the |frame|
+    private void setAnswerTextFieldListener() {
         var self = this;  // to pass it below
         answerTextField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -75,27 +90,23 @@ public class TaskWindow extends JFrame {
                         updateWindow();
                     } catch (NotEnoughTasksException | QuizNotFinishedException ex) {
                         ex.printStackTrace();
+                        System.exit(1);
                     }
                 }
             }
         });
-
-        setMinimumSize(parentWindow.getMinimumSize());
-        setVisible(true);
-
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                parentWindow.setVisible(true);
-            }
-        });
-
-        updateWindow();
     }
 
     void updateWindow() throws NotEnoughTasksException, QuizNotFinishedException {
         if (quiz.isFinished()) {
             JOptionPane.showMessageDialog(this,
-                    "Your mark is: " + quiz.getMark(),
+                    String.format("""
+                            Your mark is: %f\s
+                            OK answers: %d\s
+                            WRONG answers: %d\s
+                            Incorrect inputs: %d""",
+                            quiz.getMark(), quiz.getCorrectAnswerNumber(), quiz.getWrongAnswerNumber(),
+                            quiz.getIncorrectInputNumber()),
                     "Quiz result",
                     JOptionPane.INFORMATION_MESSAGE);
             dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
