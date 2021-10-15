@@ -42,31 +42,41 @@ public class Main {
     }
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-        TerminalRenderer terminal = TerminalRenderer.init(1);
+//        TerminalRenderer terminal = TerminalRenderer.init(1);
+//
+//        Runnable myRun = () -> {
+//            try {
+//                HttpRequest request = HttpRequest.newBuilder()
+//                        .uri(new URI("http://zhabdex.ovi.by/status"))
+//                        .GET()
+//                        .build();
+//                HttpResponse<String> response = HttpClient.newBuilder()
+//                        .build()
+//                        .send(request, HttpResponse.BodyHandlers.ofString());
+//
+//                List<Service> services = Tools.JSON.readValue(response.body(), new TypeReference<>() {});
+//                var rows = services.stream().map(Main::serviceToString).toList();
+//
+//                Table table = new Table("Zhabdex services").addRow(Main.getHeaders()).addRows(rows);
+//                terminal.render(List.of(table));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                System.exit(-1);
+//            }
+//        };
+//
+//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+//        executor.scheduleAtFixedRate(myRun, 0, 1, TimeUnit.SECONDS);
+//        // not closing the app, when terminal closes
 
-        Runnable myRun = () -> {
-            try {
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(new URI("http://zhabdex.ovi.by/status"))
-                        .GET()
-                        .build();
-                HttpResponse<String> response = HttpClient.newBuilder()
-                        .build()
-                        .send(request, HttpResponse.BodyHandlers.ofString());
+        var collection = new MappedCollection<>((Integer a) -> "Number is " + a.toString());
+        collection.renew(List.of(4, 5, 6, 7));
+        collection.currentState().forEach(System.out::println);
 
-                List<Service> services = Tools.JSON.readValue(response.body(), new TypeReference<>() {});
-                var rows = services.stream().map(Main::serviceToString).toList();
+        collection.renew(List.of(6, 7));
+        collection.currentState().forEach(System.out::println);
 
-                Table table = new Table("Zhabdex services").addRow(Main.getHeaders()).addRows(rows);
-                terminal.render(List.of(table));
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
-        };
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(myRun, 0, 1, TimeUnit.SECONDS);
-        // not closing the app, when terminal closes
+        collection.renew(List.of(6, 7, 8, 100));
+        collection.currentState().forEach(System.out::println);
     }
 }
