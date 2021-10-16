@@ -6,10 +6,9 @@ import java.util.function.BinaryOperator;
 public class ReducedCollection<T> implements FinalProcessedCollection<T, Optional<T>> {
     private final BinaryOperator<T> reducer;
     private T currentState = null;
-//    private List<E> mappedElements = new ArrayList<>();
-//    private final HashMap<T, E> buffer = new HashMap<>();
-    // optimization: хранить все элементы и результаты редьюсов для префиксов, потом, если префикс совпадает, можно
-    // его переиспользовать
+    // optimization: хранить все элементы и результаты редьюсов для префиксов, потом использовать наидлинейнший
+    // совпадающий префикс. Но это слишком много по памяти, и чекать потом много. Можно хранить только префиксы с
+    // последнего renew.
 
     ReducedCollection(BinaryOperator<T> reducer) {
         this.reducer = reducer;
@@ -17,7 +16,6 @@ public class ReducedCollection<T> implements FinalProcessedCollection<T, Optiona
 
     @Override
     public void renew(Collection<? extends T> elements) {
-//        currentState = elements.stream().map(element -> (T) element).reduce(reducer);
         var firstElement = elements.stream().findFirst();
         if (firstElement.isPresent()) {
             currentState = elements.stream().skip(1).reduce(firstElement.get(), reducer, reducer);

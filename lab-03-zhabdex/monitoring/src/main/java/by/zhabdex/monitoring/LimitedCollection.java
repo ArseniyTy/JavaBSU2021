@@ -2,9 +2,7 @@ package by.zhabdex.monitoring;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.Function;
 
 public class LimitedCollection<T> implements ProcessedCollection<T, T> {
     private final long maxSize;
