@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -69,14 +70,7 @@ public class Main {
 //        executor.scheduleAtFixedRate(myRun, 0, 1, TimeUnit.SECONDS);
 //        // not closing the app, when terminal closes
 
-        var collection = new MappedCollection<>((Integer a) -> "Number is " + a.toString());
-        collection.renew(List.of(4, 5, 6, 7));
-        collection.currentState().forEach(System.out::println);
-
-        collection.renew(List.of(6, 7));
-        collection.currentState().forEach(System.out::println);
-
-        collection.renew(List.of(6, 7, 8, 100));
-        collection.currentState().forEach(System.out::println);
+        List<Integer> ages = List.of(25, 30, 45, 28, 32);
+        Optional<Integer> computedAges = ages.stream().reduce(Integer::sum);
     }
 }
