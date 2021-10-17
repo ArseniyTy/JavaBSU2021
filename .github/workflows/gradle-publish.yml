@@ -1,11 +1,11 @@
-# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+# This workflow will build a lab-01-quizer-lib package using Gradle and then publish it to GitHub packages
 
 name: Publish package
 
 on:
   push:
     branches: [master]
+    paths: ['./lab-01-quizer-lib']
 
 jobs:
   build:
@@ -22,15 +22,13 @@ jobs:
       with:
         java-version: '16'
         distribution: 'adopt'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+        server-id: github
+        settings-path: ${{ github.workspace }}
 
     - name: Build with Gradle
       run: gradle build
       working-directory: lab-01-quizer-lib
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
       run: gradle publish
       env:
