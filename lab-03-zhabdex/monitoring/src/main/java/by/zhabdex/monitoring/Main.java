@@ -1,11 +1,9 @@
 package by.zhabdex.monitoring;
 
-import by.derovi.service_monitoring.visualizer.Table;
 import by.derovi.service_monitoring.visualizer.TerminalRenderer;
 import by.zhabdex.common.Service;
 import by.zhabdex.common.Tools;
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,33 +12,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static List<String> serviceToString(Service service) {
-        return List.of(
-                service.getName(),
-                service.getDataCenter(),
-                String.valueOf(service.getAveragePing()),
-                String.valueOf(service.getNodesCount()),
-                String.valueOf(service.getRequestsPerSecond()),
-                String.valueOf(service.getStartedTime()),
-                String.valueOf(service.getCurrentTime()));
-    }
-
-    public static List<String> getHeaders() {
-        return List.of(
-                "Name",
-                "Data center",
-                "Ping",
-                "Available Nodes",
-                "Requests/sec",
-                "Started time",
-                "Current time");
-    }
 
     public static List<Service> fetchServices() throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
@@ -53,32 +26,27 @@ public class Main {
         return Tools.JSON.readValue(response.body(), new TypeReference<>() {});
     }
 
-    public static void updateTerminal(TerminalRenderer terminal, List<Service> services) throws IOException {
-        var rows = services.stream().map(Main::serviceToString).toList();
-        Table table = new Table("Zhabdex services").
-                addRow(Main.getHeaders()).
-                addRows(rows);
-        terminal.render(List.of(table));
-    }
-
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
         TerminalRenderer terminal = TerminalRenderer.init(1);
 
-        FinalProcessedCollection<Service, Optional<Long>> collection =
-                new FilteredCollection<Service>(service -> service.getDataCenter().equals("Chaplin")).
-                        compose(new SortedCollection<>(Service::getNodesCount)).
-                        compose(new LimitedCollection<>(3)).
-                        compose(new MappedCollection<>(Service::getRequestsPerSecond)).
-                        compose(new ReducedCollection<>(Long::sum));
+        var collection =
+                new SortedCollection<>(Service::getRequestsForUptime).compose(
+                        new TableViewCollection<>("Test", List.of(
+                                TableViewCollection.ColumnProvider.of("Name", Service::getName),
+                                TableViewCollection.ColumnProvider.of("Data center", Service::getDataCenter),
+                                TableViewCollection.ColumnProvider.of("Ping", Service::getAveragePing),
+                                TableViewCollection.ColumnProvider.of("Available nodes", Service::getNodesCount),
+                                TableViewCollection.ColumnProvider.of("Requests/sec", Service::getRequestsPerSecond),
+                                TableViewCollection.ColumnProvider.of("Started time", Service::getStartedTime),
+                                TableViewCollection.ColumnProvider.of("Current time", Service::getCurrentTime)
+                        ))
+                );
 
-        while (true) {
-            List<Service> services = fetchServices();
-            updateTerminal(terminal, services);
-            Thread.sleep(1000);
-
-            collection.renew(services);
-            System.out.println(collection.currentState());
-        }
         // not closing the app, when terminal closes
+        while (true) {
+            collection.renew(fetchServices());
+            terminal.render(List.of(collection.currentState()));
+            Thread.sleep(1000);
+        }
     }
 }
