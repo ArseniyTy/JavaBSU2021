@@ -42,35 +42,43 @@ public class Main {
                 "Current time");
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
-//        TerminalRenderer terminal = TerminalRenderer.init(1);
-//
-//        Runnable myRun = () -> {
-//            try {
-//                HttpRequest request = HttpRequest.newBuilder()
-//                        .uri(new URI("http://zhabdex.ovi.by/status"))
-//                        .GET()
-//                        .build();
-//                HttpResponse<String> response = HttpClient.newBuilder()
-//                        .build()
-//                        .send(request, HttpResponse.BodyHandlers.ofString());
-//
-//                List<Service> services = Tools.JSON.readValue(response.body(), new TypeReference<>() {});
-//                var rows = services.stream().map(Main::serviceToString).toList();
-//
-//                Table table = new Table("Zhabdex services").addRow(Main.getHeaders()).addRows(rows);
-//                terminal.render(List.of(table));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                System.exit(-1);
-//            }
-//        };
-//
-//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//        executor.scheduleAtFixedRate(myRun, 0, 1, TimeUnit.SECONDS);
-//        // not closing the app, when terminal closes
+    public static List<Service> fetchServices() throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("http://zhabdex.ovi.by/status"))
+                .GET()
+                .build();
+        HttpResponse<String> response = HttpClient.newBuilder()
+                .build()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        return Tools.JSON.readValue(response.body(), new TypeReference<>() {});
+    }
 
-        List<Integer> ages = List.of(25, 30, 45, 28, 32);
-        Optional<Integer> computedAges = ages.stream().reduce(Integer::sum);
+    public static void updateTerminal(TerminalRenderer terminal, List<Service> services) throws IOException {
+        var rows = services.stream().map(Main::serviceToString).toList();
+        Table table = new Table("Zhabdex services").
+                addRow(Main.getHeaders()).
+                addRows(rows);
+        terminal.render(List.of(table));
+    }
+
+    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+        TerminalRenderer terminal = TerminalRenderer.init(1);
+
+        FinalProcessedCollection<Service, Optional<Long>> collection =
+                new FilteredCollection<Service>(service -> service.getDataCenter().equals("Chaplin")).
+                        compose(new SortedCollection<>(Service::getNodesCount)).
+                        compose(new LimitedCollection<>(3)).
+                        compose(new MappedCollection<>(Service::getRequestsPerSecond)).
+                        compose(new ReducedCollection<>(Long::sum));
+
+        while (true) {
+            List<Service> services = fetchServices();
+            updateTerminal(terminal, services);
+            Thread.sleep(1000);
+
+            collection.renew(services);
+            System.out.println(collection.currentState());
+        }
+        // not closing the app, when terminal closes
     }
 }

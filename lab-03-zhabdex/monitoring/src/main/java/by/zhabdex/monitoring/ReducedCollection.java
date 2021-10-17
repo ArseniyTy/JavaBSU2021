@@ -16,6 +16,8 @@ public class ReducedCollection<T> implements FinalProcessedCollection<T, Optiona
 
     @Override
     public void renew(Collection<? extends T> elements) {
+        // 1 one argument reduce can't determine type of the |identity| parameter. That's why we should do it manually
+        // and use 3 arguments reduce.
         var firstElement = elements.stream().findFirst();
         if (firstElement.isPresent()) {
             currentState = elements.stream().skip(1).reduce(firstElement.get(), reducer, reducer);
