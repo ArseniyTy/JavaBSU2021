@@ -8,7 +8,7 @@ public class LimitedCollection<T> implements ProcessedCollection<T, T> {
     private final long maxSize;
     private List<? extends T> limitedElements = new ArrayList<>();
 
-    LimitedCollection(long maxSize) {
+    public LimitedCollection(long maxSize) {
         this.maxSize = maxSize;
     }
 
