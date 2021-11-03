@@ -1,4 +1,6 @@
-package by.zhabdex.monitoring;
+package by.zhabdex.collections;
+
+import by.zhabdex.collections.ProcessedCollection;
 
 import java.util.Collection;
 import java.util.List;

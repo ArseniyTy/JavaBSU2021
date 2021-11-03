@@ -1,7 +1,8 @@
-package by.zhabdex.monitoring;
+package by.zhabdex.collections;
+
+import by.zhabdex.collections.FinalProcessedCollection;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface FinalProcessedCollectionTest {
     default <T, E> E renewAndGetCurrentState(FinalProcessedCollection<T, E> collection,

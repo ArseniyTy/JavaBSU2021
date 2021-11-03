@@ -1,4 +1,4 @@
-package by.zhabdex.monitoring;
+package by.zhabdex.collections;
 
 import java.util.*;
 import java.util.function.Function;
@@ -8,7 +8,7 @@ public class MappedCollection<T, E> implements ProcessedCollection<T, E> {
     private List<E> mappedElements = new ArrayList<>();
     private final HashMap<T, E> buffer = new HashMap<>();
 
-    MappedCollection(Function<T, E> mapper) {
+    public MappedCollection(Function<T, E> mapper) {
         this.mapper = mapper;
     }
 

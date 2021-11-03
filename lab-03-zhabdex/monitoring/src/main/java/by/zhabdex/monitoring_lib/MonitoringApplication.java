@@ -3,13 +3,10 @@ package by.zhabdex.monitoring_lib;
 import by.derovi.service_monitoring.visualizer.TerminalRenderer;
 import by.zhabdex.common.Service;
 import by.zhabdex.common.Tools;
-import by.zhabdex.monitoring.SortedCollection;
-import by.zhabdex.monitoring.TableViewCollection;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.reflections.Reflections;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;

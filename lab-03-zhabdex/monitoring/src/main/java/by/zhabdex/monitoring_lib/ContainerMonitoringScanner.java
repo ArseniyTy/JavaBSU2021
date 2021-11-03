@@ -2,10 +2,9 @@ package by.zhabdex.monitoring_lib;
 
 import by.derovi.service_monitoring.visualizer.Table;
 import by.zhabdex.common.Service;
-import by.zhabdex.monitoring.FinalProcessedCollection;
+import by.zhabdex.collections.FinalProcessedCollection;
 import org.reflections.Reflections;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 

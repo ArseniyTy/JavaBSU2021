@@ -1,4 +1,4 @@
-package by.zhabdex.monitoring;
+package by.zhabdex.collections;
 
 import org.junit.jupiter.api.Test;
 

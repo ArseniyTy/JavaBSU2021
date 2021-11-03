@@ -1,6 +1,10 @@
 package by.zhabdex.monitoring;
 
 import by.derovi.service_monitoring.visualizer.Table;
+import by.zhabdex.collections.FinalProcessedCollection;
+import by.zhabdex.collections.LimitedCollection;
+import by.zhabdex.collections.SortedCollection;
+import by.zhabdex.collections.TableViewCollection;
 import by.zhabdex.common.Service;
 import by.zhabdex.monitoring_lib.ActiveMonitoring;
 import by.zhabdex.monitoring_lib.MonitoringContainer;
