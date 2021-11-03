@@ -5,8 +5,6 @@ import org.reflections.Reflections;
 import java.util.Collection;
 
 public class ClassMonitoringScanner implements MonitoringScanner {
-    public ClassMonitoringScanner() {}
-
     @Override
     public Collection<Monitoring> scan(Reflections reflection) {
         var annotatedWithClasses = reflection.getTypesAnnotatedWith(ActiveMonitoring.class);

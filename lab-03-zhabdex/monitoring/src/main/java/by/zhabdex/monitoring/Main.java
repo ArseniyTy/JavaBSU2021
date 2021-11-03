@@ -1,6 +1,7 @@
 package by.zhabdex.monitoring;
 
 import by.zhabdex.monitoring_lib.ClassMonitoringScanner;
+import by.zhabdex.monitoring_lib.ContainerMonitoringScanner;
 import by.zhabdex.monitoring_lib.MonitoringApplication;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class Main {
                 .packageName("by.zhabdex.monitoring")
                 .serviceURL("http://zhabdex.ovi.by/status")
                 .addScanner(new ClassMonitoringScanner())
-//                .addScanner(new ContainerMonitoringScanner())
+                .addScanner(new ContainerMonitoringScanner())
                 .start();
     }
 }
