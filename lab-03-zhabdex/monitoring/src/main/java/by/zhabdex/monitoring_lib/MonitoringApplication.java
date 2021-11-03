@@ -85,19 +85,6 @@ public class MonitoringApplication {
     private void update() throws IOException, URISyntaxException, InterruptedException {
         TerminalRenderer terminal = TerminalRenderer.init(monitorings.size());
 
-//        var collection =
-//                new SortedCollection<>(Service::getRequestsForUptime).compose(
-//                        new TableViewCollection<>("Test", List.of(
-//                                TableViewCollection.ColumnProvider.of("Name", Service::getName),
-//                                TableViewCollection.ColumnProvider.of("Data center", Service::getDataCenter),
-//                                TableViewCollection.ColumnProvider.of("Ping", Service::getAveragePing),
-//                                TableViewCollection.ColumnProvider.of("Available nodes", Service::getNodesCount),
-//                                TableViewCollection.ColumnProvider.of("Requests/sec", Service::getRequestsPerSecond),
-//                                TableViewCollection.ColumnProvider.of("Started time", Service::getStartedTime),
-//                                TableViewCollection.ColumnProvider.of("Current time", Service::getCurrentTime)
-//                        ))
-//                );
-
         // not closing the app, when terminal closes
         while (true) {
             var services = fetchServices();

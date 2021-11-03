@@ -28,4 +28,19 @@ public class MyMonitoringContainer {
                         TableViewCollection.ColumnProvider.of("Available nodes", Service::getNodesCount)
                 )));
     }
+
+    @ActiveMonitoring
+    static FinalProcessedCollection<Service, Table> sortedByRequestsForUptime() {
+        return new SortedCollection<>(Service::getRequestsForUptime).compose(
+                new TableViewCollection<>("Services (sorted by requests for uptime)", List.of(
+                        TableViewCollection.ColumnProvider.of("Name", Service::getName),
+                        TableViewCollection.ColumnProvider.of("Data center", Service::getDataCenter),
+                        TableViewCollection.ColumnProvider.of("Ping", Service::getAveragePing),
+                        TableViewCollection.ColumnProvider.of("Available nodes", Service::getNodesCount),
+                        TableViewCollection.ColumnProvider.of("Requests/sec", Service::getRequestsPerSecond),
+                        TableViewCollection.ColumnProvider.of("Started time", Service::getStartedTime),
+                        TableViewCollection.ColumnProvider.of("Current time", Service::getCurrentTime)
+                ))
+        );
+    }
 }

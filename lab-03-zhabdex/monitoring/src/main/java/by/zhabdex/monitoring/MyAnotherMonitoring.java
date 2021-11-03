@@ -14,17 +14,14 @@ import java.util.Map;
 public class MyAnotherMonitoring implements Monitoring {
     FinalProcessedCollection<Service, Table> collection =
             new GroupingCollection<>(Service::getDataCenter)
-                    .compose(
-                            new MappedCollection<>(
-                                    entry -> new AbstractMap.SimpleEntry<>(entry.getKey(),
-                                            entry.getValue().stream()
-                                                    .mapToLong(Service::getRequestsPerSecond).sum())
-                            )
-                    ).compose(
-                            new TableViewCollection<>("Summary ping", List.of(
-                                    TableViewCollection.ColumnProvider.of("Name", Map.Entry::getKey),
-                                    TableViewCollection.ColumnProvider.of("Available nodes", Map.Entry::getValue)
-                            ))
+                    .compose(new MappedCollection<>(
+                            entry -> new AbstractMap.SimpleEntry<>(
+                                    entry.getKey(),
+                                    entry.getValue().stream()
+                                            .mapToLong(Service::getRequestsPerSecond).sum()))
+                    ).compose(new TableViewCollection<>("Nodes availability", List.of(
+                            TableViewCollection.ColumnProvider.of("Data center name", Map.Entry::getKey),
+                            TableViewCollection.ColumnProvider.of("Available nodes", Map.Entry::getValue)))
                     );
 
     @Override

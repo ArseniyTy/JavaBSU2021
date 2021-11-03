@@ -5,6 +5,7 @@ import by.zhabdex.common.Service;
 import by.zhabdex.monitoring.FinalProcessedCollection;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 

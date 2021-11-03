@@ -8,15 +8,13 @@ public class GroupingCollection<T, K>
     private final Function<? super T, ? extends K> classifier;
     private final HashMap<K, List<T>> keys_with_elements = new HashMap<>();
 
-//    private List<E> mappedElements = new ArrayList<>();
-//    private final HashMap<T, E> buffer = new HashMap<>();
-
     public GroupingCollection(Function<? super T, ? extends K> classifier) {
         this.classifier = classifier;
     }
 
     @Override
     public void renew(Collection<? extends T> elements) {
+        keys_with_elements.clear();
         elements.forEach(e -> {
             var key = classifier.apply(e);
             keys_with_elements.putIfAbsent(key, new ArrayList<>());
