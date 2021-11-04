@@ -20,6 +20,7 @@ public class ContainerMonitoringScanner implements MonitoringScanner {
                 .peek(method -> method.setAccessible(true))  // as |foreach|, but returns |stream()|
                 .map(method -> {
                     try {
+                        // unsafe cast here
                         return (FinalProcessedCollection<Service, Table>) method.invoke(null);
                     } catch (Exception e) {
                         e.printStackTrace();

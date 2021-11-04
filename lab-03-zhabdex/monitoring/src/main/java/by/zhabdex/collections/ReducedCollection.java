@@ -6,9 +6,6 @@ import java.util.function.BinaryOperator;
 public class ReducedCollection<T> implements FinalProcessedCollection<T, Optional<T>> {
     private final BinaryOperator<T> reducer;
     private T currentState = null;
-    // optimization: хранить все элементы и результаты редьюсов для префиксов, потом использовать наидлинейнший
-    // совпадающий префикс. Но это слишком много по памяти, и чекать потом много. Можно хранить только префиксы с
-    // последнего renew.
 
     ReducedCollection(BinaryOperator<T> reducer) {
         this.reducer = reducer;
