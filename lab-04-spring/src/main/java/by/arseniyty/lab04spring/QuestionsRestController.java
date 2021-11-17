@@ -21,22 +21,22 @@ public class QuestionsRestController {
     }
 
     @PostMapping("/")
-    public Question add(@RequestBody Question new_question) {
-        return repository.save(new_question);
+    public Question add(@RequestBody Question newQuestion) {
+        return repository.save(newQuestion);
     }
 
     @PutMapping("/{id}")
-    public Question change(@RequestBody Question new_question,
+    public Question change(@RequestBody Question newQuestion,
                            @PathVariable Long id) {
         // удалить и добавить новый с таким же id?
         return repository.findById(id)
                 .map(question -> {
-                    question.setText(new_question.getText());
+                    question.setText(newQuestion.getText());
                     return repository.save(question);
                 })
                 .orElseGet(() -> {
-                    new_question.setId(id);
-                    return repository.save(new_question);
+                    newQuestion.setId(id);
+                    return repository.save(newQuestion);
                 });
     }
 
