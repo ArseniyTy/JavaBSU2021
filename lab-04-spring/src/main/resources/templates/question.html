@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+    <h1 th:text="${question.text}" />
+<!--    <form method="post" th:object="${newComment}" th:action="@{/questions/provideAnswer/{id}(id=${question.id})}">-->
+<!--        <div>-->
+<!--            <label>-->
+<!--                <b>Text: </b>-->
+<!--                <input th:field="*{text}" type="text" placeholder="Enter comment" name="comment" required>-->
+<!--            </label>-->
+<!--            <button type="submit">Create comment</button>-->
+<!--        </div>-->
+<!--    </form>-->
+
+    <ul th:each="comment : ${question.comments}">
+        <li th:text="${comment.text}" />
+    </ul>
+
+    <form method="post" th:object="${newComment}" th:action="@{/questions/addComment/{id}(id=${question.id})}">
+        <div>
+            <label>
+                <b>Text: </b>
+                <input th:field="*{text}" type="text" placeholder="Enter comment" name="comment" required>
+            </label>
+            <button type="submit">Create comment</button>
+        </div>
+    </form>
+</body>
+</html>

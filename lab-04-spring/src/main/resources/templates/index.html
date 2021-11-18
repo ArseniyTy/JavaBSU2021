@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Questions List</title>
+</head>
+<body>
+    <ul th:each="question : ${questions}">
+        <li>
+            <a th:href="@{/questions/{id}(id=${question.id})}"
+               th:text="${question.text}"/>
+        </li>
+    </ul>
+
+    <form method="post" th:object="${newQuestion}">
+        <div>
+            <label>
+                <b>Text: </b>
+                <input th:field="*{text}" type="text" placeholder="Enter question" required>
+            </label>
+            <button type="submit">Create question</button>
+        </div>
+    </form>
+</body>
+</html>
