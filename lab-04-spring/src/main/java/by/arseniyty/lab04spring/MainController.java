@@ -21,7 +21,7 @@ public class MainController {
         return "index";
     }
 
-    @PostMapping()
+    @PostMapping
     String addQuestion(@ModelAttribute Question newQuestion) {
         questionsRepository.save(newQuestion);
         return "redirect:";

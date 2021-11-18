@@ -15,6 +15,7 @@ public class Question {
     private Long id;
 
     private String text;
+    private String answer;
 
     @JsonManagedReference  // to drop recursive json serialisation
     // With |mappedBy| we specify that |Comment| is the owning side

@@ -6,25 +6,29 @@
 </head>
 <body>
     <h1 th:text="${question.text}" />
-<!--    <form method="post" th:object="${newComment}" th:action="@{/questions/provideAnswer/{id}(id=${question.id})}">-->
-<!--        <div>-->
-<!--            <label>-->
-<!--                <b>Text: </b>-->
-<!--                <input th:field="*{text}" type="text" placeholder="Enter comment" name="comment" required>-->
-<!--            </label>-->
-<!--            <button type="submit">Create comment</button>-->
-<!--        </div>-->
-<!--    </form>-->
+    <h1 th:text="|Answer: ${question.answer}|" />
+
+    <div sec:authorize="hasRole('ADMIN')">
+            <form method="post" th:object="${question}" th:action="@{/questions/{id}/provideAnswer(id=${question.id})}">
+                <div>
+                    <label>
+                        <b>Text: </b>
+                        <input th:field="*{answer}" type="text" th:placeholder="${question.answer}" required>
+                    </label>
+                    <button type="submit">Edit Answer</button>
+                </div>
+            </form>
+    </div>
 
     <ul th:each="comment : ${question.comments}">
         <li th:text="${comment.text}" />
     </ul>
 
-    <form method="post" th:object="${newComment}" th:action="@{/questions/addComment/{id}(id=${question.id})}">
+    <form method="post" th:object="${newComment}" th:action="@{/questions/{id}/addComment(id=${question.id})}">
         <div>
             <label>
                 <b>Text: </b>
-                <input th:field="*{text}" type="text" placeholder="Enter comment" name="comment" required>
+                <input th:field="*{text}" type="text" placeholder="Enter comment" required>
             </label>
             <button type="submit">Create comment</button>
         </div>
