@@ -16,6 +16,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+    margin-bottom: 1%;
 }
 
 .submit_button:hover, .submit_button:active {

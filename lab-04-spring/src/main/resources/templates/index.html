@@ -13,6 +13,14 @@
         <button class="submit_button" type="submit">Login</button>
     </form>
 
+    <form method="post" th:object="${questionSubstr}" th:action="@{/findQuestion}">
+        <div class="col-3">
+            <input class="effect-8" th:field="*{value}" type="text" placeholder="Enter words to find question ...">
+            <span class="focus-border"><i></i></span>
+        </div>
+        <button class="submit_button" type="submit">Find</button>
+    </form>
+
     <h1>Questions:</h1>
     <ul th:each="question : ${questions}">
         <li>
