@@ -13,14 +13,22 @@ public class CommentsController {
     @Autowired
     CommentsRepository repository;
 
-    @PostMapping
-    ModelAndView add(@ModelAttribute Comment newComment) {
-        System.out.println("\n\n\nCOMMENTS---------------------------------------------------------------\n\n\n");
-        System.out.println(newComment.getText());
-        System.out.println(newComment.getId());
-        System.out.println(newComment.getQuestion());
-
-//        repository.save(newComment);
-        return new ModelAndView("redirect:/questions/" + newComment.getQuestion().getId());
+    @PostMapping("/{id}/like")
+    String likeComment(@ModelAttribute Comment likedComment,
+                       @PathVariable Long id) {
+        Comment comment = repository.findById(id).orElseThrow();
+        comment.setLikesCount(comment.getLikesCount() + 1);
+        repository.save(comment);
+        return "redirect:/questions/" + comment.getQuestion().getId();
     }
+
+    @PostMapping("/{id}/dislike")
+    String dislikeComment(@ModelAttribute Comment likedComment,
+                          @PathVariable Long id) {
+        Comment comment = repository.findById(id).orElseThrow();
+        comment.setDislikesCount(comment.getDislikesCount() + 1);
+        repository.save(comment);
+        return "redirect:/questions/" + comment.getQuestion().getId();
+    }
+
 }

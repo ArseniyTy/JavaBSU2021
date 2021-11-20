@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentsRepository extends CrudRepository<Comment, Long> {
+    Iterable<Comment> findAllByOrderBygetPopularityDesc();
 }

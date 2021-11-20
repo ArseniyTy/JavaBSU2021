@@ -26,17 +26,17 @@
 
 
     <h1>Comments:</h1>
-    <ul th:each="comment : ${question.comments}">
+    <ul th:each="comment : ${comments}">
         <li>
             <p th:text="${comment.text}" />
-            <div class='like likediv'>
-                <button class="like-toggle basic like_b">👍</button>
-                <span class='hidden' th:text="|${comment.likesCount} likes|" />
-            </div>
-            <div class='like likediv'>
-                <button class="like-toggle basic dislike_b">👎</button>  <!-- ADD EVENTS -->
-                <span class='hidden' th:text="|${comment.dislikesCount} dislikes|" />
-            </div>
+            <form method="post" th:action="@{'/comments/{id}/like'(id=${comment.id})}" class='likeform'>
+                <button type="submit" class="likish like_button">👍</button>
+                <span th:text="|${comment.likesCount} likes|" />
+            </form>
+            <form method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
+                <button class="likish dislike_button">👎</button>
+                <span th:text="|${comment.dislikesCount} dislikes|" />
+            </form>
         </li>
     </ul>
 

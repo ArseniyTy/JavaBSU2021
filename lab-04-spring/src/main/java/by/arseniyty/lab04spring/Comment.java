@@ -23,4 +23,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "questionId", nullable = false)
     private Question question;
+
+    public Long getPopularity() {
+        return likesCount + dislikesCount;
+    }
 }

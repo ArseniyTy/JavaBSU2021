@@ -1,10 +1,12 @@
-.likediv {
+* {
+    transition: all 0.2s linear;
+}
+
+.likeform {
     display: inline-block;
 }
 
-*{transition: all 0.3s linear;}
-
-.like-toggle{
+.likish {
     outline:none;
     box-shadow:none;
     border: none;
@@ -12,17 +14,14 @@
     height: 30px;
     font-size: 1.3em;
     border-radius: 100px;
-}
-
-.like-active.basic{
-    background: #7CC576;
+    background: #D1FEFF;
     color: white;
 }
 
-.like_b:hover {
-    background: green;
+.like_button:hover {
+    background: #30FF30;
 }
 
-.dislike_b:hover {
-    background: red;
+.dislike_button:hover {
+    background: #FF3030;
 }
