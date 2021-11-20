@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Questions List</title>
+
+    <link th:href="@{/styles/input.css}" rel="stylesheet" />
+    <link th:href="@{/styles/submit_button.css}" rel="stylesheet" />
 </head>
 <body>
     <ul th:each="question : ${questions}">
@@ -13,13 +16,11 @@
     </ul>
 
     <form method="post" th:object="${newQuestion}">
-        <div>
-            <label>
-                <b>Text: </b>
-                <input th:field="*{text}" type="text" placeholder="Enter question" required>
-            </label>
-            <button type="submit">Create question</button>
+        <div class="col-3">
+            <input class="effect-8" th:field="*{text}" type="text" placeholder="Enter question" required>
+            <span class="focus-border"><i></i></span>
         </div>
+        <button class="submit_button" type="submit">Create question</button>
     </form>
 </body>
 </html>
