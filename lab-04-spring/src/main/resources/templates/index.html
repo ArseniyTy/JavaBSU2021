@@ -6,12 +6,22 @@
 
     <link th:href="@{/styles/input.css}" rel="stylesheet" />
     <link th:href="@{/styles/submit_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/delete_button.css}" rel="stylesheet" />
 </head>
 <body>
+    <form th:action="@{/login}">
+        <button class="submit_button" type="submit">Login</button>
+    </form>
+
+    <h1>Questions:</h1>
     <ul th:each="question : ${questions}">
         <li>
             <a th:href="@{/questions/{id}(id=${question.id})}"
                th:text="${question.text}"/>
+            <form sec:authorize="hasRole('ADMIN')"
+                  method="post" th:action="@{'/questions/{id}/delete'(id=${question.id})}">
+                <button class="delete-button" type="submit">Delete</button>
+            </form>
         </li>
     </ul>
 

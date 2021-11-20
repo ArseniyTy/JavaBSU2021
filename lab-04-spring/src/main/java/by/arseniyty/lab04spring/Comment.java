@@ -15,6 +15,7 @@ public class Comment {
     private Long id;
 
     @NotNull
+    @Column(columnDefinition="TEXT")
     private String text;
     private Long likesCount = 0L;
     private Long dislikesCount = 0L;

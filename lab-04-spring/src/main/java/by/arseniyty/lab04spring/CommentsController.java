@@ -31,4 +31,10 @@ public class CommentsController {
         return "redirect:/questions/" + comment.getQuestion().getId();
     }
 
+    @RequestMapping("/{id}/delete")
+    String deleteComment(@PathVariable Long id) {
+        var questionId = repository.findById(id).orElseThrow().getQuestion().getId();
+        repository.deleteById(id);
+        return "redirect:/questions/" + questionId;
+    }
 }

@@ -5,14 +5,20 @@
     <title>Question</title>
     <link th:href="@{/styles/input.css}" rel="stylesheet" />
     <link th:href="@{/styles/submit_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/back_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/delete_button.css}" rel="stylesheet" />
     <link th:href="@{/styles/like.css}" rel="stylesheet" />
     <script type="text/javascript" th:src="@{/js/like.js}"></script>
 </head>
 <body>
+    <form th:action="@{/questions/back}">
+        <button class="back-button" type="submit">Back</button>
+    </form>
+
     <h1>Question:</h1>
-    <h2 th:text="${question.text}" />
+    <p th:text="${question.text}" />
     <h1>Answer:</h1>
-    <h2 th:text="${question.answer} ?: 'No answer yet'"/>
+    <p th:text="${question.answer} ?: 'No answer yet'"/>
 
     <div sec:authorize="hasRole('ADMIN')">
             <form method="post" th:object="${question}" th:action="@{/questions/{id}/provideAnswer(id=${question.id})}">
@@ -36,6 +42,10 @@
             <form method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
                 <button class="likish dislike_button">👎</button>
                 <span th:text="|${comment.dislikesCount} dislikes|" />
+            </form>
+            <form sec:authorize="hasRole('ADMIN')"
+                  method="post" th:action="@{'/comments/{id}/delete'(id=${comment.id})}" class="likeform">
+                <button class="delete-button" type="submit">Delete</button>
             </form>
         </li>
     </ul>

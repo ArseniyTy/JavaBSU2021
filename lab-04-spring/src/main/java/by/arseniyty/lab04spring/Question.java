@@ -14,7 +14,10 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition="TEXT")
     private String text;
+
+    @Column(columnDefinition="TEXT")
     private String answer;
 
     @JsonManagedReference  // to drop recursive json serialisation

@@ -15,17 +15,20 @@ public class QuestionsController {
     @Autowired
     CommentsRepository commentsRepository;
 
+    @Autowired
+    CommentsService commentsService;
+
     @GetMapping("/{id}")
     String getQuestion(Model model, @PathVariable Long id) {
         model.addAttribute("question", repository.findById(id).orElseThrow());
-        model.addAttribute("comments", commentsRepository.findAllByOrderBygetPopularityDesc());
+        model.addAttribute("comments", commentsService.getCommentsSortedByPopularity(id));
         model.addAttribute("newComment", new Comment());
         model.addAttribute("answer", "");
         return "question";
     }
 
-    @GetMapping("/secret")
-    String test() {
+    @GetMapping("/back")
+    String goBack() {
         return "redirect:../";
     }
 
@@ -43,5 +46,11 @@ public class QuestionsController {
         q.setAnswer(editedQuestion.getAnswer());
         repository.save(q);
         return "redirect:/questions/" + id;
+    }
+
+    @RequestMapping("/{id}/delete")
+    String deleteQuestion(@PathVariable Long id) {
+        repository.deleteById(id);
+        return "redirect:/";
     }
 }
