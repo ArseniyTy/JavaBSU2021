@@ -1,9 +1,11 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.service;
 
+import by.arseniyty.lab04spring.entity.Comment;
+import by.arseniyty.lab04spring.repository.CommentsRepository;
+import by.arseniyty.lab04spring.repository.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;

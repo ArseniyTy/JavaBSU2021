@@ -1,4 +1,4 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;

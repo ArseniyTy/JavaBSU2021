@@ -1,4 +1,4 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

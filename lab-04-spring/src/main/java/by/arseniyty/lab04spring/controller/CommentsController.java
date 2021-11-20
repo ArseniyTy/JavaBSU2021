@@ -1,10 +1,10 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.controller;
 
+import by.arseniyty.lab04spring.entity.Comment;
+import by.arseniyty.lab04spring.repository.CommentsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/comments")

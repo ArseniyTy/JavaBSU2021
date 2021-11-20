@@ -1,5 +1,6 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.entity;
 
+import by.arseniyty.lab04spring.entity.Comment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 

@@ -1,5 +1,7 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.rest_controller;
 
+import by.arseniyty.lab04spring.repository.QuestionsRepository;
+import by.arseniyty.lab04spring.entity.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

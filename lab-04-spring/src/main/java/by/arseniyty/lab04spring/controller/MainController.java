@@ -1,5 +1,8 @@
-package by.arseniyty.lab04spring;
+package by.arseniyty.lab04spring.controller;
 
+import by.arseniyty.lab04spring.entity.StringHolder;
+import by.arseniyty.lab04spring.entity.Question;
+import by.arseniyty.lab04spring.repository.QuestionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
