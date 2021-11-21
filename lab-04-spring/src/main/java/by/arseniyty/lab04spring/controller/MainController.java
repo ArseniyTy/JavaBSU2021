@@ -23,11 +23,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/login")
-    String login() {
-        return "redirect:/login";  // redirect to default login page, provided by SecurityConfig
-    }
-
     @PostMapping
     String addQuestion(@ModelAttribute Question newQuestion) {
         questionsRepository.save(newQuestion);

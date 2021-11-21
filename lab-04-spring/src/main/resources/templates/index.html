@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <title>Questions List</title>
 
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
     <link th:href="@{/styles/input.css}" rel="stylesheet" />
     <link th:href="@{/styles/submit_button.css}" rel="stylesheet" />
     <link th:href="@{/styles/delete_button.css}" rel="stylesheet" />
 </head>
 <body>
-    <form th:action="@{/login}">
-        <button class="submit_button" type="submit">Login</button>
+    <div sec:authorize="!isFullyAuthenticated()">
+        <form method="get" th:action="@{/login/}" class="login_button_container">
+            <button class="submit_button" type="submit">Login</button>
+        </form>
+
+        <form method="get" th:action="@{/registration}" class="registration_button_container">
+            <button class="submit_button" type="submit">Registration</button>
+        </form>
+    </div>
+    <form sec:authorize="isFullyAuthenticated()"
+          method="post" th:action="@{/logout}" class="logout_button_container">
+        <button class="submit_button" type="submit" value="Logout">Logout</button>
     </form>
+
 
     <form method="post" th:object="${questionSubstr}" th:action="@{/findQuestion}">
         <div class="col-3">
@@ -32,8 +44,10 @@
             </form>
         </li>
     </ul>
+    <p th:unless="${questions.iterator().hasNext()}">No questions found</p>
 
-    <form method="post" th:object="${newQuestion}">
+    <form sec:authorize="isFullyAuthenticated()"
+          method="post" th:object="${newQuestion}">
         <div class="col-3">
             <input class="effect-8" th:field="*{text}" type="text" placeholder="Enter question" required>
             <span class="focus-border"><i></i></span>

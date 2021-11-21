@@ -35,14 +35,20 @@
     <ul th:each="comment : ${comments}">
         <li>
             <p th:text="${comment.text}" />
-            <form method="post" th:action="@{'/comments/{id}/like'(id=${comment.id})}" class='likeform'>
+            <form sec:authorize="isFullyAuthenticated()"
+                  method="post" th:action="@{'/comments/{id}/like'(id=${comment.id})}" class='likeform'>
                 <button type="submit" class="likish like_button">👍</button>
-                <span th:text="|${comment.likesCount} likes|" />
             </form>
-            <form method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
+            <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👍</button>
+            <span th:text="|${comment.likesCount} likes|" />
+
+            <form sec:authorize="isFullyAuthenticated()"
+                  method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
                 <button class="likish dislike_button">👎</button>
-                <span th:text="|${comment.dislikesCount} dislikes|" />
             </form>
+            <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👎</button>
+            <span th:text="|${comment.dislikesCount} dislikes|" />
+
             <form sec:authorize="hasRole('ADMIN')"
                   method="post" th:action="@{'/comments/{id}/delete'(id=${comment.id})}" class="likeform">
                 <button class="delete-button" type="submit">Delete</button>
@@ -50,7 +56,8 @@
         </li>
     </ul>
 
-    <form method="post" th:object="${newComment}" th:action="@{/questions/{id}/addComment(id=${question.id})}">
+    <form sec:authorize="isFullyAuthenticated()"
+          method="post" th:object="${newComment}" th:action="@{/questions/{id}/addComment(id=${question.id})}">
         <div class="col-3">
             <input class="effect-8" th:field="*{text}" type="text" placeholder="Enter comment" name="comment_input" required>
             <span class="focus-border"><i></i></span>
