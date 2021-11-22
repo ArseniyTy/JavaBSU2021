@@ -5,6 +5,7 @@ import by.arseniyty.lab04spring.entity.User;
 import by.arseniyty.lab04spring.repository.RolesRepository;
 import by.arseniyty.lab04spring.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,6 +42,10 @@ public class UsersService implements UserDetailsService {
         }
 
         return user;
+    }
+
+    public User getCurrentAuthenticatedUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public User findUserById(Long userId) {

@@ -32,7 +32,7 @@
 
 
     <h1>Comments:</h1>
-    <ul th:each="comment : ${comments}">
+    <ul th:each="comment : ${commentsService.getCommentsSortedByPopularity(question.id)}">
         <li>
             <p th:text="${comment.text}" />
             <form sec:authorize="isFullyAuthenticated()"
@@ -40,14 +40,15 @@
                 <button type="submit" class="likish like_button">👍</button>
             </form>
             <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👍</button>
-            <span th:text="|${comment.likesCount} likes|" />
+            <span th:text="|${commentsService.getCommentsLikesCount(comment.id)} likes|" />
+
 
             <form sec:authorize="isFullyAuthenticated()"
                   method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
                 <button class="likish dislike_button">👎</button>
             </form>
             <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👎</button>
-            <span th:text="|${comment.dislikesCount} dislikes|" />
+            <span th:text="|${commentsService.getCommentsDislikesCount(comment.id)} dislikes|" />
 
             <form sec:authorize="hasRole('ADMIN')"
                   method="post" th:action="@{'/comments/{id}/delete'(id=${comment.id})}" class="likeform">

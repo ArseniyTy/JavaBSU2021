@@ -4,15 +4,13 @@ import by.arseniyty.lab04spring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(usersService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -36,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").not().fullyAuthenticated()  // only for users, not auth yet
                 .antMatchers("/",
                         "/findQuestion",
-                        "/login",
+                        "/login",  // very important!!!
                         "/logout",
                         "/questions/*",
                         "/styles/**",
@@ -45,30 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()  // all other pages only with auth
                 .and()
             .formLogin()
-                .successForwardUrl("/")
+                .loginPage("/login")
+//                .successForwardUrl("/afterLogin")
+//                .failureUrl("/login")
                 .permitAll()
                 .and()
             .logout()
-//                .clearAuthentication(true)
-//                .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .permitAll();
-    }
-
-//    @Bean
-//    @Override
-//    protected UserDetailsService userDetailsService() {
-//        UserDetails user = User
-//            .withDefaultPasswordEncoder()
-//            .username("u")
-//            .roles("ADMIN")
-//            .password("p")
-//            .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
-
-    @Autowired
-    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usersService).passwordEncoder(bCryptPasswordEncoder());
     }
 }

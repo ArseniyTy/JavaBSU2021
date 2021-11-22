@@ -1,6 +1,7 @@
 package by.arseniyty.lab04spring.entity;
 
 import by.arseniyty.lab04spring.entity.Comment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
@@ -27,4 +28,9 @@ public class Question {
                orphanRemoval = true,
                cascade=CascadeType.ALL)
     private List<Comment> comments;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 }

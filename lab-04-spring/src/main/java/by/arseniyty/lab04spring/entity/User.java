@@ -1,5 +1,6 @@
 package by.arseniyty.lab04spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,8 +30,27 @@ public class User implements UserDetails {
     @Transient
     private String passwordConfirm;  // double check just in form, won't be in db
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",
+               orphanRemoval = true,
+               cascade=CascadeType.ALL)
+    private List<Comment> comments;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",
+            orphanRemoval = true,
+            cascade=CascadeType.ALL)
+    private List<Question> questions;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user",
+            orphanRemoval = true,
+            cascade=CascadeType.ALL)
+    private List<Reaction> reactions;
 
 //    public User(String username, String password, RO) {
 //        setUsername(username);

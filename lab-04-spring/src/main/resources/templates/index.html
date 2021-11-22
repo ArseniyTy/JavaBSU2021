@@ -11,7 +11,7 @@
 </head>
 <body>
     <div sec:authorize="!isFullyAuthenticated()">
-        <form method="get" th:action="@{/login/}" class="login_button_container">
+        <form method="get" th:action="@{/login}" class="login_button_container">
             <button class="submit_button" type="submit">Login</button>
         </form>
 
@@ -25,7 +25,7 @@
     </form>
 
 
-    <form method="post" th:object="${questionSubstr}" th:action="@{/findQuestion}">
+    <form method="get" th:object="${questionSubstr}" th:action="@{/findQuestion}">
         <div class="col-3">
             <input class="effect-8" th:field="*{value}" type="text" placeholder="Enter words to find question ...">
             <span class="focus-border"><i></i></span>
@@ -47,7 +47,7 @@
     <p th:unless="${questions.iterator().hasNext()}">No questions found</p>
 
     <form sec:authorize="isFullyAuthenticated()"
-          method="post" th:object="${newQuestion}">
+          method="post" th:object="${newQuestion}" th:action="@{/addQuestion}">
         <div class="col-3">
             <input class="effect-8" th:field="*{text}" type="text" placeholder="Enter question" required>
             <span class="focus-border"><i></i></span>

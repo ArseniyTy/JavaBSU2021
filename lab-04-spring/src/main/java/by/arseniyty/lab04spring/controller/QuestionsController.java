@@ -5,6 +5,7 @@ import by.arseniyty.lab04spring.entity.Question;
 import by.arseniyty.lab04spring.repository.CommentsRepository;
 import by.arseniyty.lab04spring.repository.QuestionsRepository;
 import by.arseniyty.lab04spring.service.CommentsService;
+import by.arseniyty.lab04spring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,13 @@ public class QuestionsController {
     @Autowired
     CommentsService commentsService;
 
+    @Autowired
+    UsersService usersService;
+
     @GetMapping("/{id}")
     String getQuestion(Model model, @PathVariable Long id) {
         model.addAttribute("question", repository.findById(id).orElseThrow());
-        model.addAttribute("comments", commentsService.getCommentsSortedByPopularity(id));
+        model.addAttribute("commentsService", commentsService);
         model.addAttribute("newComment", new Comment());
         model.addAttribute("answer", "");
         return "question";
@@ -41,6 +45,7 @@ public class QuestionsController {
     String addComment(@ModelAttribute Comment newComment, @PathVariable Long id) {
         newComment.setId(0L);  // by default: newComment.id == id (magic)
         newComment.setQuestion(repository.findById(id).orElseThrow());
+        newComment.setUser(usersService.getCurrentAuthenticatedUser());
         commentsRepository.save(newComment);
         return "redirect:/questions/" + id;
     }
