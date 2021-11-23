@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'  // for sec:authorize prop
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'org.hibernate:hibernate-validator:7.0.1.Final'  // this is must have for validation!
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'

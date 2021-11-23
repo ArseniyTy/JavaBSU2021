@@ -13,9 +13,8 @@
             <h2 class="inactive">Sign Up</h2>
 
             <form th:action="@{/login}" method="post">  <!-- VERY IMPORTANT TO BE LIKE THIS-->
-                <div th:if="${param.error}">
-                    <p class="invalid-text">Invalid data</p>
-                </div>
+                <!-- param.error is handled in default SpringSecurity login page -->
+                <p class="error-text" th:if="${param.error}">Username or(and) password are incorrect</p>
                 <input type="text"
                        id="login" class="fadeIn second" name="username" placeholder="username" required>
                 <input type="password"

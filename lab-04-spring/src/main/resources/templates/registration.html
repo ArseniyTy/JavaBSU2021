@@ -13,21 +13,19 @@
             <h2 class="active">Sign Up</h2>
 
             <form method="post" th:object="${userForm}">
-<!--                    <p class="invalid-text">Invalid data</p>-->
+                <!-- Error handling -->
+                <p class="error-text" th:text="${usernameError}"></p>  <!-- Won't be displayed, if usernameError not exists -->
+                <p class="error-text" th:text="${passwordError}"></p>
+                <p class="error-text" th:if="@{fields.hasErrors('username')}" th:errors="*{username}"></p>
+                <p class="error-text" th:if="@{fields.hasErrors('password')}" th:errors="*{password}"></p>
+
 
                 <input type="text" th:field="*{username}"
-                       id="login" class="fadeIn second" name="login" placeholder="username">
-                <p th:if="@{fields.hasErrors('username')}" th:errors="*{username}">Incorrect username</p>
-
+                       id="login" class="fadeIn second" name="username" placeholder="username">
                 <input type="password" th:field="*{password}"
-                       id="password" class="fadeIn third" name="login" placeholder="password">
-                <p th:if="@{fields.hasErrors('password')}" th:errors="*{password}">Incorrect password</p>
-
-
+                       id="password" class="fadeIn third" name="password" placeholder="password">
                 <input type="password" th:field="*{passwordConfirm}"
-                       id="password" class="fadeIn third" name="login" placeholder="confirm password">
-                <p th:if="@{fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Passwords not the same</p>
-
+                       id="password" class="fadeIn third" name="passwordConfirm" placeholder="confirm password">
                 <input type="submit" value="Register"
                        class="fadeIn fourth">
             </form>

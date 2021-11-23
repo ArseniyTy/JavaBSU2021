@@ -34,7 +34,7 @@ public class RegistrationController {
             return "registration";
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute("passwordError", "Incorrect password");
+            model.addAttribute("passwordError", "Passwords are not the same");
             return "registration";
         }
         if (!usersService.saveUser(userForm)){

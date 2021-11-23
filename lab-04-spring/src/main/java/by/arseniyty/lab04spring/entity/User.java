@@ -21,10 +21,10 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min=2, message = "More than 2 symbols")
+    @Size(min = 3, message = "Username length should be greater than 2")
     private String username;
 
-    @Size(min=2, message = "More than 2 symbols")
+    @Size(min = 5, message = "Password length should be greater than 4")
     private String password;
 
     @Transient
