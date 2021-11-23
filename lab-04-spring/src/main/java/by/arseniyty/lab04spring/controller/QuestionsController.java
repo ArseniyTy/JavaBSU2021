@@ -2,10 +2,8 @@ package by.arseniyty.lab04spring.controller;
 
 import by.arseniyty.lab04spring.entity.Comment;
 import by.arseniyty.lab04spring.entity.Question;
-import by.arseniyty.lab04spring.repository.CommentsRepository;
-import by.arseniyty.lab04spring.repository.QuestionsRepository;
 import by.arseniyty.lab04spring.service.CommentsService;
-import by.arseniyty.lab04spring.service.UsersService;
+import by.arseniyty.lab04spring.service.QuestionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,23 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class QuestionsController {
 
     @Autowired
-    QuestionsRepository repository;
-
-    @Autowired
-    CommentsRepository commentsRepository;
+    QuestionsService service;
 
     @Autowired
     CommentsService commentsService;
 
-    @Autowired
-    UsersService usersService;
-
     @GetMapping("/{id}")
     String getQuestion(Model model, @PathVariable Long id) {
-        model.addAttribute("question", repository.findById(id).orElseThrow());
+        model.addAttribute("question", service.getById(id));
         model.addAttribute("commentsService", commentsService);
         model.addAttribute("newComment", new Comment());
-        model.addAttribute("answer", "");
         return "question";
     }
 
@@ -43,24 +34,21 @@ public class QuestionsController {
 
     @PostMapping("/{id}/addComment")
     String addComment(@ModelAttribute Comment newComment, @PathVariable Long id) {
-        newComment.setId(0L);  // by default: newComment.id == id (magic)
-        newComment.setQuestion(repository.findById(id).orElseThrow());
-        newComment.setUser(usersService.getCurrentAuthenticatedUser());
-        commentsRepository.save(newComment);
+        // By default: newComment.id == id (because associate <form> with questions id).
+        // If we want to pass newComment somewhere else we should change id.
+        commentsService.createComment(newComment.getText(), id);
         return "redirect:/questions/" + id;
     }
 
     @PostMapping("/{id}/provideAnswer")
-    String addQuestion(@ModelAttribute Question editedQuestion, @PathVariable Long id) {
-        Question q = repository.findById(id).orElseThrow();
-        q.setAnswer(editedQuestion.getAnswer());
-        repository.save(q);
+    String provideAnswer(@ModelAttribute Question editedQuestion, @PathVariable Long id) {
+        service.provideAnswer(id, editedQuestion.getAnswer());
         return "redirect:/questions/" + id;
     }
 
     @RequestMapping("/{id}/delete")
     String deleteQuestion(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.deleteById(id);
         return "redirect:/";
     }
 }

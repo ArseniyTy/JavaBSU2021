@@ -17,15 +17,12 @@ public class Role implements GrantedAuthority {
     @Id
     private Long id;
 
+    // Better with enums
     private String name;  // ROLE_"NAME"
 
     @Transient  // not stored in db
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
-    public Role(Long id) {
-        this.id = id;
-    }
 
     public Role(Long id, String name) {
         this.id = id;

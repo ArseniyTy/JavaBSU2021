@@ -41,6 +41,6 @@ public class RegistrationController {
             model.addAttribute("usernameError", "User with such a name already exists");
             return "registration";
         }
-        return "redirect:/";
+        return "redirect:";
     }
 }

@@ -18,14 +18,10 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private RolesRepository rolesRepository;
 
-    // Preloads data
+    // Preloads data to db
     public void run(ApplicationArguments args) {
         rolesRepository.save(new Role(1L, "ROLE_USER"));
         rolesRepository.save(new Role(2L, "ROLE_ADMIN"));
-
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword("ppp");
-        usersService.saveAdmin(admin);
+        usersService.saveUser(new User("admin", "ppp"), "ROLE_ADMIN");
     }
 }

@@ -16,7 +16,7 @@ public class Reaction {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userId")
     private User user;
 
     @JsonBackReference

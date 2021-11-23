@@ -1,11 +1,6 @@
 package by.arseniyty.lab04spring.controller;
 
-import by.arseniyty.lab04spring.entity.Comment;
-import by.arseniyty.lab04spring.entity.Reaction;
-import by.arseniyty.lab04spring.repository.CommentsRepository;
-import by.arseniyty.lab04spring.repository.ReactionsRepository;
 import by.arseniyty.lab04spring.service.CommentsService;
-import by.arseniyty.lab04spring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,53 +10,29 @@ import org.springframework.web.bind.annotation.*;
 public class CommentsController {
 
     @Autowired
-    CommentsRepository repository;
-
-    @Autowired
     CommentsService service;
 
-    @Autowired
-    ReactionsRepository reactionsRepository;
-
-    @Autowired
-    UsersService usersService;
-
     @PostMapping("/{id}/like")
-    String likeComment(@ModelAttribute Comment likedComment,
-                       @PathVariable Long id) {
-
-//        Comment comment = repository.findById(id).orElseThrow();
-//        Reaction r = new Reaction();
-//        r.setLiked(true);
-//        r.setUser(usersService.getCurrentAuthenticatedUser());
-//        r.setComment(comment);
-//        reactionsRepository.save(r);
-
+    String likeComment(@PathVariable Long id) {
         service.reactToCommentByButtonClick(id, true);
-        return "redirect:/questions/" + repository.findById(id).orElseThrow().getQuestion().getId();
+        return RedirectBackToQuestion(service.getQuestionsId(id));
     }
 
     @PostMapping("/{id}/dislike")
-    String dislikeComment(@ModelAttribute Comment likedComment,
-                          @PathVariable Long id) {
-//        Comment comment = repository.findById(id).orElseThrow();
-//        Reaction r = new Reaction();
-//        r.setLiked(false);
-//        r.setUser(usersService.getCurrentAuthenticatedUser());
-//        r.setComment(comment);
-//        reactionsRepository.save(r);
-//        comment.setDislikesCount(comment.getDislikesCount() + 1);
-//        repository.save(comment);
-//        System.out.println(service.getCommentsDislikesCount(id));
-
+    String dislikeComment(@PathVariable Long id) {
         service.reactToCommentByButtonClick(id, false);
-        return "redirect:/questions/" + repository.findById(id).orElseThrow().getQuestion().getId();
+        return RedirectBackToQuestion(service.getQuestionsId(id));
+
     }
 
-    @RequestMapping("/{id}/delete")
+    @RequestMapping("/{id}/delete")  // Not DeleteMapping, because the <form> can work only with POST/GET
     String deleteComment(@PathVariable Long id) {
-        var questionId = repository.findById(id).orElseThrow().getQuestion().getId();
-        repository.deleteById(id);
+        var questionId = service.getQuestionsId(id);
+        service.deleteById(id);
+        return RedirectBackToQuestion(questionId);
+    }
+
+    private String RedirectBackToQuestion(Long questionId) {
         return "redirect:/questions/" + questionId;
     }
 }

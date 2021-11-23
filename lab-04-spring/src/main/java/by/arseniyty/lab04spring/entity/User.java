@@ -17,76 +17,57 @@ import java.util.Set;
 @Entity
 @Table(name="userEntity")  // postgresql can't create table with name |user|
 public class User implements UserDetails {
+
+    public User(String username, String password) {
+        setUsername(username);
+        setPassword(password);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 3, message = "Username length should be greater than 2")
+    @Size(min = 2, message = "Username length should be greater than 1")
     private String username;
 
-    @Size(min = 5, message = "Password length should be greater than 4")
+    @Size(min = 2, message = "Password length should be greater than 1")
     private String password;
 
     @Transient
-    private String passwordConfirm;  // double check just in form, won't be in db
+    private String passwordConfirm;  // double check just in <form>, won't be in db
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)  // data will be loaded immediately
     private Set<Role> roles;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user",
-               orphanRemoval = true,
-               cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Comment> comments;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user",
-            orphanRemoval = true,
-            cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Question> questions;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "user",
-            orphanRemoval = true,
-            cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Reaction> reactions;
-
-//    public User(String username, String password, RO) {
-//        setUsername(username);
-//        setPassword(password);
-//    }
-
-//    @Override
-//    public String getUsername() {
-//        return username;
-//    }
-
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
 
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
     @Override
     public boolean isEnabled() {
         return true;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
