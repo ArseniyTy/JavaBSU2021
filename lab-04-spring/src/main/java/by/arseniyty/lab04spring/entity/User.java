@@ -1,5 +1,7 @@
 package by.arseniyty.lab04spring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 @Entity
@@ -33,14 +36,15 @@ public class User implements UserDetails {
     @Size(min = 2, message = "Password length should be greater than 1")
     private String password;
 
+    @JsonIgnore
     @Transient
     private String passwordConfirm;  // double check just in <form>, won't be in db
 
-    @JsonManagedReference
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)  // data will be loaded immediately
     private Set<Role> roles;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Comment> comments;
 
@@ -48,7 +52,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Question> questions;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
     private List<Reaction> reactions;
 

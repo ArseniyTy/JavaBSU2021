@@ -1,10 +1,13 @@
 package by.arseniyty.lab04spring.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @Entity
 public class Reaction {
@@ -14,7 +17,7 @@ public class Reaction {
 
     private boolean isLiked;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;

@@ -46,7 +46,8 @@ public class QuestionsController {
         return "redirect:/questions/" + id;
     }
 
-    @RequestMapping("/{id}/delete")
+    // If it was RequestMapping, the user could manage to delete by entering this link in the browser. Not quite safe.
+    @PostMapping("/{id}/delete")
     String deleteQuestion(@PathVariable Long id) {
         service.deleteById(id);
         return "redirect:/";

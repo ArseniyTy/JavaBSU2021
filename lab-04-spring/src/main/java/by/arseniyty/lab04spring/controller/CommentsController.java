@@ -25,7 +25,7 @@ public class CommentsController {
 
     }
 
-    @RequestMapping("/{id}/delete")  // Not DeleteMapping, because the <form> can work only with POST/GET
+    @PostMapping("/{id}/delete")  // Not DeleteMapping, because the <form> can work only with POST/GET
     String deleteComment(@PathVariable Long id) {
         var questionId = service.getQuestionsId(id);
         service.deleteById(id);
