@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+    <link th:href="@{/styles/input.css}" rel="stylesheet" />
+    <link th:href="@{/styles/submit_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/back_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/delete_button.css}" rel="stylesheet" />
+    <link th:href="@{/styles/like.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/js/like.js}"></script>
+</head>
+<body>
+    <form th:action="@{/questions/back}">
+        <button class="back-button" type="submit">Back</button>
+    </form>
+
+    <h1>Question:</h1>
+    <p th:text="${question.text}" />
+    <h1>Answer:</h1>
+    <p th:text="${question.answer} ?: 'No answer yet'"/>
+
+    <div sec:authorize="hasRole('ADMIN')">
+            <form method="post" th:object="${question}" th:action="@{/questions/{id}/provideAnswer(id=${question.id})}">
+                <div class="col-3">
+                    <input class="effect-8" th:field="*{answer}" type="text" th:placeholder="${question.answer}" required>
+                    <span class="focus-border"><i></i></span>
+                </div>
+                <button class="submit_button" type="submit">Edit Answer</button>
+            </form>
+    </div>
+
+
+    <h1>Comments:</h1>
+    <ul th:each="comment : ${commentsService.getCommentsSortedByPopularity(question.id)}">
+        <li>
+            <p th:text="${comment.text}" />
+            <form sec:authorize="isFullyAuthenticated()"
+                  method="post" th:action="@{'/comments/{id}/like'(id=${comment.id})}" class='likeform'>
+                <button type="submit" class="likish like_button">👍</button>
+            </form>
+            <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👍</button>
+            <span th:text="|${commentsService.getCommentsLikesCount(comment.id)} likes|" />
+
+
+            <form sec:authorize="isFullyAuthenticated()"
+                  method="post" th:action="@{'/comments/{id}/dislike'(id=${comment.id})}" class='likeform'>
+                <button class="likish dislike_button">👎</button>
+            </form>
+            <button sec:authorize="!isFullyAuthenticated()" class="likish dislike_button" disabled>👎</button>
+            <span th:text="|${commentsService.getCommentsDislikesCount(comment.id)} dislikes|" />
+
+            <form sec:authorize="hasRole('ADMIN')"
+                  method="post" th:action="@{'/comments/{id}/delete'(id=${comment.id})}" class="likeform">
+                <button class="delete-button" type="submit">Delete</button>
+            </form>
+        </li>
+    </ul>
+
+    <form sec:authorize="isFullyAuthenticated()"
+          method="post" th:object="${newComment}" th:action="@{/questions/{id}/addComment(id=${question.id})}">
+        <div class="col-3">
+            <input class="effect-8" th:field="*{text}" type="text" placeholder="Enter comment" name="comment_input" required>
+            <span class="focus-border"><i></i></span>
+        </div>
+        <button class="submit_button" type="submit">Create comment</button>
+    </form>
+</body>
+</html>

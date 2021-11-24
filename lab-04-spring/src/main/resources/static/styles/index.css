@@ -1,0 +1,5 @@
+.login_button_container, .registration_button_container, .logout_button_container {
+    display: inline-block;
+    margin: 1.5%;
+    float: right;
+}
